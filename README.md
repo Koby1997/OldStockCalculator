@@ -1,2 +1,4 @@
 # StockCalculator
 Creating scripts to simulate a stock strategy over historical data to see if it is a viable strategy for real trading. Also to help learn Python.
+
+I have a simple stock trading strategy that I cannot see the fallacy in. It is simply buying a stock a little before the stock pays the dividend, then selling, even before they pay the dividend out. When you try to research this strategy, everyone talks about trying to hold the stock and earn on the actual dividend, but that is not what I want to do. I belive I have noticed a trend where the stock will rise, but then after the payout the stock falls. This is known and makes sense. The amount the stock falls is related to the payout of the stock. I want to see if I can capitalize on the rise right before the fall. These scripts are just to see if there is in fact a rise right before the dividend payout an overwhelming majority of the time.
