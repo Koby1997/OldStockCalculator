@@ -1,22 +1,15 @@
 import yfinance as yf
-import numpy as np
 import datetime
+from StockClass import Stock
 
 
 with open('output.txt', 'w') as f:
 
 
 
-
-
-
-
     largest_tot_avg = 0
     largest_tot_perc = 0
     largest_tot_perc_change = 0
-
-
-
 
 
 
@@ -52,24 +45,15 @@ with open('output.txt', 'w') as f:
             for symbol in all_tickers:
                 # Print the list of all available stock tickers
                 try:
-                    stock = yf.Ticker(symbol)
+                    current_stock = yf.Ticker(symbol)
                 except ValueError:
                     print("Could not find data for symbol: " + symbol)
                     continue
 
 
-                # Print the earnings call dates
-                earnings_call_dates_and_data = stock.get_earnings_dates(limit=150)
-                # print(earnings_call_dates_and_data)
-
-                # gives a DatetimeIndex which cannot be used with .timedelta
-                earnings_call_dates = earnings_call_dates_and_data.index
-
-                # change format to datetime to allow the used of .timedelta
-                dates = earnings_call_dates.to_pydatetime()
-                #There are multiple future dates added. So we want to get rid of those
-                dates = dates[10:]
-                print(dates)
+                dividends = current_stock.dividends
+                # Get all of the ex-dividend dates
+                ex_dividend_dates = dividends.index.to_pydatetime()
 
                 #important to remember that our list goes from [curent, past, ->]
                 #so the further in the array we go, the further back we go
@@ -78,14 +62,6 @@ with open('output.txt', 'w') as f:
                 days_back_dt = datetime.timedelta(days=days_back)
                 sell_day_dt = datetime.timedelta(days=sell_day)
                 one_day_dt = datetime.timedelta(days=1)
-
-
-                # print("Day")
-                # print(dates[4])
-                # print("Adding day") #go into future
-                # print(dates[4] + one_day)
-                # print("Subtracting a day") #go into past
-                # print(dates[4] - one_day)
 
 
                 # Gets data for a stock on a day "10"
@@ -97,22 +73,15 @@ with open('output.txt', 'w') as f:
                 individual_stock_percent_change = 0
                 non_error_dates = 0
 
-                for date in dates:
-
-                    buy_date = date - days_back_dt - one_day_dt
-                    sell_date = date - sell_day_dt
-
-                    print("Buy date:  ", buy_date)
-                    print("Sell date: ", sell_date)
-                    print("Earnings date: ", date)
+                for date in ex_dividend_dates:
                 
-                    if stock.history(start=(date - days_back_dt - one_day_dt), end=(date - sell_day_dt)).empty:
+                    if current_stock.history(start=(date - days_back_dt - one_day_dt), end=(date - sell_day_dt)).empty:
                         print("Error: Skipping because no data. Not adding to the calculations\n")
                         continue
 
                     non_error_dates += 1
 
-                    data = stock.history(start=(date - days_back_dt - one_day_dt), end=(date - sell_day_dt))
+                    data = current_stock.history(start=(date - days_back_dt - one_day_dt), end=(date - sell_day_dt))
                     # print(data)
                     price_difference = data['Open'][len(data['Open']) - 1] - data['Close'][0] #want positive? positive means stock went up. earnings date - days before
                     individual_stock_price_difference += price_difference
@@ -138,13 +107,13 @@ with open('output.txt', 'w') as f:
 
                 ticker_success_count += 1
 
-                print("Calculations for ", symbol, "with buy day: ", i, " and sell date: ", j) #, file=f)
-                print("Average price Difference: ", average_price_difference) #, file=f)
-                print("Average of the actual percentage rise/drop between the ", sell_day, " days before earning day and ", days_back, " days after: ", individual_stock_percent_change, "%") #, file=f)
-                print("Percentage of times that the stock price went down: ", percent_total_went_down, "%") #, file=f)
+                print("Calculations for ", symbol, "with buy day: ", i, " and sell date: ", j, file=f)
+                print("Average price Difference: ", average_price_difference, file=f)
+                print("Average of the actual percentage rise/drop between the ", sell_day, " days before earning day and ", days_back, " days after: ", individual_stock_percent_change, "%", file=f)
+                print("Percentage of times that the stock price went down: ", percent_total_went_down, "%", file=f)
                 
 
-                print(symbol + " Complete\n") #, file=f)
+                print(symbol + " Complete\n", file=f)
 
 
 
@@ -153,14 +122,14 @@ with open('output.txt', 'w') as f:
             tot_perc = all_stock_percent_total_went_down / ticker_success_count
             tot_perc_change = all_stock_percent_change / ticker_success_count
 
-            print("Buy date: ", days_back, " days before Earnings day. Sell date: ", sell_day, " days before Earnings day") #, file=f)
+            print("Buy date: ", days_back, " days before Earnings day. Sell date: ", sell_day, " days before Earnings day", file=f)
             # print("Average stock price difference of all stocks when comparing ", days_back, " days before earnings day:  ", tot_avg)
             # print("Average of the actual percentage rize/drop when bought ", days_back, " days before earnings day and sold ", sell_day, " days before earnings day: ", tot_perc_change, "%")
             # print("Average percent of all stocks that decreased (no matter the amount) over the time period:  ", tot_perc, "%")
 
-            print(tot_avg) #, file=f)
-            print(tot_perc_change, "%") #, file=f)
-            print(tot_perc, "%\n") #, file=f)
+            print(tot_avg, file=f)
+            print(tot_perc_change, "%", file=f)
+            print(tot_perc, "%\n", file=f)
 
             if tot_avg > temp_tot_avg:
                 temp_tot_avg = tot_avg
