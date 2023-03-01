@@ -4,7 +4,18 @@ from StockClass import Stock
 
 
 # List of tickers to make
-stock_symbols = ["AAPL","AAPL"]#,"GOOGL","MSFT","JPM","JNJ","V","BABA","WMT","PG","NFLX","DIS"]
+stock_symbols = ["MO","VZ","OKE"]
+# ["APPL", "APPL"]# "MO","VZ","OKE","T"]
+# [
+#     "AAPL", "ABBV", "ABT", "ACN", "ADBE", "AMAT", "AMGN",
+#     "AXP", "BA", "BAC", "BLK", "BMY", "CMCSA", "COST",
+#     "CSCO", "CVS", "CVX", "DIS", "DOW", "F", "GE", "GS"]
+#     "HD", "HON", "IBM", "JCI", "JNJ", "JPM", "KO", "LLY",
+#     "LOW", "MA", "MDLZ", "MDT", "MMM", "MO", "MRK", "MSFT", "MU",
+#     "NKE", "NVDA", "NEE", "ORCL", "PFE", "PG", "PM",
+#     "QCOM", "RTX", "SLB", "SPG", "T", "TMO", "TXN", "UNH",
+#     "UNP", "UPS", "V", "VLO", "VZ", "WBA", "WFC", "WMT", "XOM"
+# ] #64 Stocks
 stock_list = []
 
 
@@ -18,18 +29,13 @@ with open('output.txt', 'w') as f:
 
     keep_count = 1
     #loop through all stocks listed above
-    for stock in stock_list:
-        # Print the list of all available stock tickers
+    for stock in stock_list.copy():
+    #We use a copy because we may need to altar the actual list during the loop
         try:
-            print("well check this first")
-            print(stock.symbol)
             current_stock_ticker = yf.Ticker(stock.symbol)
-            print("new stock ticker")
         except ValueError:
             print("Could not find data for symbol: " + stock.symbol)
             continue
-
-        print("info ", current_stock_ticker.actions)
 
         dividends = current_stock_ticker.dividends
         # print(dividends)
@@ -38,11 +44,13 @@ with open('output.txt', 'w') as f:
         # print(ex_dividend_dates)
 
         
+        enough_data = True
 
 
-        for buy_date in range(5,7):# range(4,21):
+        for buy_date in range(7,21):
 
-            for sell_day in range(-2,0):#(-3, 3):
+            for sell_day in range(-2,3):
+                data_points = 0
 
                 for date in ex_dividend_dates:
 
@@ -56,6 +64,8 @@ with open('output.txt', 'w') as f:
                     if current_stock_ticker.history(start=(date - buy_date_dt - one_day_dt), end=(date - sell_day_dt)).empty:
                         print("Error: Skipping because no data. Not adding to the calculations\n")
                         continue
+                    #count the data point because it made it past this check
+                    data_points += 1
 
 
                     data = current_stock_ticker.history(start=(date - buy_date_dt - one_day_dt), end=(date - sell_day_dt))
@@ -67,18 +77,37 @@ with open('output.txt', 'w') as f:
                     #    ((Sell - buy)/buy) * 100
                     stock.single_perc_change.append(percent_change)
 
+                #if less than 50 data points, we don't want to use it
+                if data_points < 50:
+                    enough_data = False
+                    break
+                #Still need to take it out of stock_list so it isn't used later when having no data
+                    
 
                 print("Calculations for ", stock.symbol, "with buy day: ", buy_date, " and sell date: ", sell_day, file=f)
                 print("Average price Difference: ", stock.calculate_avg_single_price_change(), file=f)
-                print("Average of the actual percentage rise/drop between the ", sell_day, " days before earning day and ", buy_date, " days after: ", stock.calculate_avg_single_perc_change(), "%", file=f)
+                print("Average of the actual percentage rise/drop: ", stock.calculate_avg_single_perc_change(), "%", file=f)
                 # print("Percentage of times that the stock price went down: ", percent_total_went_down, "%", file=f)
                 print(stock.symbol + " Single date range complete\n", file=f)
 
                 stock.clean_single_data()
-                print("Done for ", buy_date, " ", sell_day)
+                print("Done for ", buy_date, " ", sell_day, "     ", stock.symbol)
+
+
+            if enough_data == False:
+                break
+
+
+        if enough_data == False:
+            print(stock.symbol, "   Not enough data points, skipping in the calcualtions to not altar the average")
+            print(stock_list)
+            stock_list.remove(stock)
+            print("I just removed the stock")
+            print(stock_list)
 
         print("Done with stock: ", stock.symbol)
-        print((keep_count / 12) * 100, " o/o complete")
+        print((keep_count / len(stock_symbols)) * 100, " o/o complete.     just did   ", keep_count)
+        keep_count = keep_count + 1
 
             
 
@@ -90,21 +119,36 @@ with open('output.txt', 'w') as f:
     first = 0
 
     for stock in stock_list:
+        print("Each day-range percent average for ", stock.symbol, file=f)
+
         if first == 0:
+            first = 1
             final_avg_price_change = stock.multiple_price_change.copy()
             final_avg_perc_change = stock.multiple_perc_change.copy()
-            first = 1
+
+            # for i in range(len(final_avg_perc_change)):
+            #     print("date-range ", i, "  :   ", stock.multiple_perc_change[i], file=f)
+            
             continue
 
 
         for i in range(len(final_avg_price_change)):
-            final_avg_price_change[i] = (final_avg_price_change[i] + stock.multiple_price_change[i]) / 2
-            final_avg_perc_change[i] = (final_avg_perc_change[i] + stock.multiple_perc_change[i]) / 2
+            #add here, divide by length in the next loop
+            final_avg_price_change[i] = (final_avg_price_change[i] + stock.multiple_price_change[i])
+            final_avg_perc_change[i] = (final_avg_perc_change[i] + stock.multiple_perc_change[i])
+            # print("date-range ", i, "  :   ", stock.multiple_perc_change[i], file=f)
 
-        for i in range(len(final_avg_price_change)):
-            print("Date range ", i, file=f)
-            print("Average Price change for all stocks in this date range: ", final_avg_price_change[1], file=f)
-            print("Average Percentage change for all stocks in this date range: ", final_avg_perc_change[1], "%", file=f)
+
+
+    for i in range(len(final_avg_price_change)):
+
+        final_avg_price_change[i] = final_avg_price_change[i] / len(stock_list)  #this finds the average
+        final_avg_perc_change[i] = final_avg_perc_change[i] / len(stock_list)
+
+
+        print("Date range ", i, file=f)
+        print("Average Price change for all stocks in this date range: ", final_avg_price_change[i], file=f)
+        print("Average Percentage change for all stocks in this date range: ", final_avg_perc_change[i], "%", file=f)
 
 
     print("wow", file=f)

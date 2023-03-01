@@ -3,8 +3,34 @@ import numpy as np
 import datetime
 
 
-# List of tickers to make
-all_tickers = ["GE", "AAPL", "AMZN","GOOGL","MSFT","JPM","JNJ","V","BABA","WMT","PG","NFLX","DIS"]
+# # List of tickers to make
+# all_tickers = [
+#     "AAPL", "ABT", "ADBE", "AMAT", "AMGN",
+#     "AXP", "BA", "BAC", "BLK", "BMY", "CAT", "CMCSA", "COST",
+#     "CVS", "CVX", "DIS", "F", "GE", "GS",
+#     "HD", "HON", "IBM", "JCI", "JNJ", "JPM", "KO", "LLY",
+#     "LOW", "MA", "MDLZ", "MDT", "MMM", "MO", "MRK", "MSFT", "MU",
+#     "NKE", "NEE", "ORCL", "PFE", "PG", "PM",
+#     "QCOM", "RTX", "SLB", "SPG", "T", "TXN", "UNH",
+#     "UNP", "UPS", "V", "VLO", "VZ", "WBA", "WFC", "WMT", "XOM"
+# ] #64 Stocks
+# ["PXD","MO","VZ","KMI","OKE","T","WBA","IP","PRU","PM","NEM","F","DOW","HAS","LYB","PNW","D","NRG","KEY","VFC","TFC","AMCR","AAP","IVZ","BBY"]
+
+
+
+#["MO","VZ","OKE","T","WBA","IP","PM","NEM","F","HAS","PNW","D","KEY","VFC","TFC","AAP","IVZ","BBY"]
+
+all_tickers = ["MO","VZ","OKE"]
+
+
+
+
+
+
+count = 0
+
+
+
 ticker_success_count = 0
 
 #loop through all stocks listed above
@@ -17,17 +43,6 @@ for symbol in all_tickers:
         continue
 
 
-    # earnings_call_dates_and_data = stock.get_earnings_dates(limit=150)
-    # # print(earnings_call_dates_and_data)
-
-    # # gives a DatetimeIndex which cannot be used with .timedelta
-    # earnings_call_dates = earnings_call_dates_and_data.index
-
-    # # change format to datetime to allow the used of .timedelta
-    # dates = earnings_call_dates.to_pydatetime()
-
-
-
     dividends = stock.dividends
 
     # Get all of the ex-dividend dates
@@ -38,8 +53,13 @@ for symbol in all_tickers:
     # for date in ex_dividend_dates:
     #     print(date)
 
+
     if len(ex_dividend_dates) > 0:
-        print(symbol, "        good")
+        print(symbol, "        good     ", len(ex_dividend_dates))
+        count += len(ex_dividend_dates)
     else:
         print(symbol, " BAD")
 
+
+
+print("total:     ", count)

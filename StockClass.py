@@ -2,17 +2,15 @@ class Stock:
     def __init__(self, symbol):
         self._symbol = symbol
 
-        #for calculating single date range
-        self._single_avg_price_change = 0
-        self._single_avg_perc_change = 0
-        # self._single_price_decrease_chance = 0
+        #single date range gets added to the list        
         self._single_price_change = []
         self._single_perc_change = []
 
-        #for calculating multiple ranges. takes the average of singles above and resets them
-        self._multiple_avg_price_change = 0
-        self._multiple_avg_perc_change = 0
-        # self._multiple_price_decrease_chance = 0
+        #once all the date ranges have been calculated, find the average and save them here
+        self._single_avg_price_change = 0
+        self._single_avg_perc_change = 0
+
+        #Once the average is found for a single date range, put it in here, reset the variables above
         self._multiple_price_change = []
         self._multiple_perc_change = []
 
@@ -155,10 +153,10 @@ class Stock:
     
     def clean_single_data(cls):
         #If the averages haven't been calculated for some reason, calculate them
-        if cls._single_avg_price_change == 0:
+        if cls.single_avg_price_change == 0:
             cls.calculate_avg_single_price_change(cls)
         
-        if cls._single_avg_perc_change == 0:
+        if cls.single_avg_perc_change == 0:
             cls.calculate_avg_single_perc_change(cls)
         
         #add the averages from the singles to the multiples
