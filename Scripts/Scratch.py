@@ -18,7 +18,7 @@ from openpyxl import load_workbook
 import os
 
 # create a new workbook and select the active worksheet
-wb = load_workbook('testTwo.xlsx')
+wb = load_workbook('Data.xlsx')
 ws = wb.active
 ws2 = wb.create_sheet("This new name")
 
@@ -40,5 +40,5 @@ for value in data:
         row += 1
 
 # save the workbook to a file
-wb.save('testTwo.xlsx')
-os.system('start excel.exe "testTwo.xlsx"')
+wb.save('Data.xlsx')
+os.system('start excel.exe "Data.xlsx"')
