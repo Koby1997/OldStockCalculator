@@ -1,0 +1,129 @@
+# High Dividend Stocks
+["PXD","MO","VZ","KMI","OKE","T","WBA","IP","PRU","PM","NEM","F","DOW","HAS","LYB","PNW","D","NRG","KEY","VFC","TFC","AMCR","AAP","IVZ","BBY"]
+
+        Greater than 40 Dates:
+        ["PXD","MO","VZ","KMI","OKE","T","WBA","IP","PRU","PM","NEM","F","HAS","LYB","PNW","D","NRG","KEY","VFC","TFC","AAP","IVZ","BBY"]
+
+
+
+
+# Information Technology
+["AAPL","ADSK","AMD","ANSS","AVGO","CDNS","CRM","CRWD","CSCO","DOCU","EBAY","FISV","FTNT",
+"HPE","HPQ","IBM","INTC","INTU","KLAC","LRCX","MCHP","MRVL","MSFT","MU","NET","NLOK","NOW",
+"NVDA","ORCL","PANW","PTON","PYPL","QCOM","ROKU","SNOW","SNPS","SPLK","SWKS","TEAM","TXN","V","WDC","XLNX","ZS"]
+
+        Greater than 40 dates:
+        ["AAPL","ADSK","AVGO","CSCO","HPQ","IBM","INTC","INTU","KLAC","MCHP","MRVL","MSFT","NVDA","ORCL","QCOM","TXN","V"]
+
+
+
+
+# Communication Services
+["ATVI","BCE","BIDU","BILI","BSY","CCI","CHL","CMCSA","DISH","DIS","DISCA","EA","FB","FSLY","FTV","GOOG","GOOGL",
+"IQ","IPG","LUMN","LYV","NET","NFLX","NWS","NTES","OMC","PINS","ROKU","SIRI","SNAP","SOGO","SPOT","T","TCOM","TM",
+"TMUS","TTWO","TUYA","TWTR","VIV","VIAC","VOD","VZ","YNDX","Z","ZG","ZM"]
+
+        Greater than 40 dates:
+        ["BCE","CMCSA","DIS","IPG","LUMN","OMC","T","TM","VIV","VOD","VZ"]
+
+
+
+
+# Consumer Discretionary
+["AMCR","AMZN","BBY","BKNG","CHWY","DIS","EBAY","ETSY","F","FIVE","GM","GPS","GRMN","GRUB","HBI","HD","HLT","LB",
+"LOW","LULU","LYFT","MCD","MGM","MAR","NCLH","NKE","PENN","PTON","RACE","RCL","RL","SBUX","TGT","TIF","TSLA","UBER",
+"WH","WMT","YUM","ZG","ZM"]
+
+        Greater than 40 dates:
+        ["BBY","DIS","F","GPS","GRMN","HD","LOW","MCD","MAR","NKE","RCL","RL","SBUX","TGT","WMT","YUM"]
+
+
+
+
+# Consumer Staples
+["BGS","BRF","BUD","BYND","CAG","CL","CLX","COST","CPB","CVS","DEO","DG","DLTR","EL","FLO","GIS","HAIN","HSY","JJSF",
+"K","KDP","KHC","KO","KMB","KR","MDLZ","MKC","MKC.V","MO","PEP","SJM","STZ","TAP","TSN","WBA","WMT"]
+
+        Greater than 40 dates:
+        ["BGS","CAG","CL","CLX","COST","CPB","CVS","DEO","EL","FLO","GIS","HSY","JJSF","K","KDP","KO","KMB","KR","MDLZ","MKC","MO","PEP","SJM","TAP","TSN","WBA","WMT"]
+
+
+
+
+# Energy
+["APA","AR","ARII","AXAS","CHK","CDEV","CNX","COG","CLR","CPG","CPRI","CPE","CVE","CXO","D","DVN","EGN","EGY","ENBL",
+"ENLC","ENLK","EOG","EQNR","EQT","ESTE","FANG","FTI","GPOR","HES","HP","KMI","LPI","MPC","MRO","NBL","OAS","OKE","OXY",
+"PDCE","PE","PSX","PTEN","PVAC","REGI","SLB","SM","SPN","SU","SWN","VNOM","VLO","WPX","XEC","XOG","XOM"]
+
+        Greater than 40 dates:
+        ["APA","CNX","CPG","CVE","D","DVN","EGN","ENLC","ENLK","EOG","EQNR","EQT","HES","HP","KMI","MPC","MRO","OKE","OXY","PSX","PTEN","SLB","SM","SU","SWN","VLO","XOM"]
+
+
+
+
+# Financials
+["AFL","AMP","AON","BAC","BEN","BK","BLK","BX","C","CFG","CINF","CMA","CME","CNO","COF","DFS","EQR","FITB","GS","HIG",
+"HST","ICE","IVZ","JPM","L","LNC","MA","MET","MMC","MTB","MS","NTRS","PNC","PRU","PBCT","RE","RF","SCHW","STI","STT",
+"TROW","TRV","UNM","USB","V","WFC","WLTW","ZION"]
+
+        Greater than 40 dates:
+        ["AFL","AMP","AON","BAC","BEN","BK","BLK","BX","C","CINF","CMA","CME","CNO","COF","DFS","EQR","FITB","GS","HIG","HST","IVZ","JPM","L","LNC","MA","MET","MMC","MTB","MS","NTRS","PNC","PRU","RE","RF","SCHW","STT","TROW","TRV","UNM","USB","V","WFC","ZION"]
+
+
+
+
+# Health Care
+["ABT","ALGN","AMGN","ANIK","ANTM","BAX","BHC","BIIB","BMY","BSX","CAH","COO","CVS","DHR","DXCM","EW","GILD","HCA",
+"HOLX","HSIC","IDXX","ILMN","INCY","IART","IRTC","ISRG","JAZZ","JNJ","LH","LIVN","MCK","MDT","MRK","MNST","PFE","RMD",
+"SYK","TFX","TMO","UNH","VRTX","WBA","WST","XLV","ZBH"]
+
+        Greater than 40 dates:
+        ["ABT","AMGN","BAX","BMY","CAH","COO","CVS","DHR","JNJ","MCK","MDT","MRK","PFE","RMD","SYK","TFX","TMO","UNH","WBA","WST","XLV","ZBH"]
+
+
+
+
+# Industrials
+["AME","ARNC","AVY","BLL","BA","CAT","CSL","DE","DOV","DOW","EFX","ECL","EMR","ETN","FDX","FLS","GE","GD","GWW",
+"HON","HWM","IR","ITW","ITGR","LHX","LMT","MMM","MAS","MTD","NSC","NOC","PCAR","PH","PNR","ROP","RTX","SEE","SLB",
+"TDY","TXT","UNP","UPS","UTX","WAB","WM","XYL"]
+
+        Greater than 40 dates:
+        ["AME","AVY","BA","CAT","CSL","DE","DOV","EFX","ECL","EMR","ETN","FDX","FLS","GE","GD","GWW","HON","ITW","LHX","LMT","MMM","MAS","NSC","NOC","PCAR","PH","PNR","ROP","RTX","SEE","SLB","TXT","UNP","UPS","WAB","WM","XYL"]
+
+
+
+
+# Materials
+["AA","ACMR","ALB","APD","AVD","AVNT","CENX","CE","DD","ECL","EMN","FCX","FMC","FNV","GCP","GOLD","GRA","HUN","IFF",
+"IPI","LIN","LTHM","MLM","MOS","NEU","NEM","NEXA","NUE","POT","PPG","POL","RPM","SCCO","SHW","SQM","SXT","TG","TROX",
+"TSE","VALE","VMC","WPM","X","XPO"]
+
+        Greater than 40 dates:
+        ["AA","ALB","APD","AVD","AVNT","CE","DD","ECL","EMN","FCX","FMC","FNV","GOLD","HUN","IFF","LIN","MLM","MOS","NEU","NEM","NUE","PPG","RPM","SCCO","SHW","SQM","SXT","TG","VALE","VMC","WPM","X"]
+
+
+
+
+# Real Estate
+["AHT","AFIN","AKR","AMH","AMT","ARE","ARR","AVB","AVD","BHR","BRX","BXP","CBRE","CCI","CDR","CLDT","CLPR","CMCT",
+"CLPR","CXP","CUZ","CTRE","CXW","DHC","DLR","DRE","EARN","ECL","EPR","EQIX","EQR","ESS","EXR","FCPT","FPI","FR","FRPH",
+"GEO","GPT","GMRE","GOOD","GOV","GRIF","HCFT","HLT","HT","HTA","HTH","INVH","IRM","IRT","JCAP","JLL","KIM","KRG","LADR",
+"LAMR","LAND","LXP","LSI","LTC","MAA","MGP","MLM","MNR","MPW","NATR","NEM","NEU","NNN","NLY","NHI","NUE","NXRT","NYMT",
+"O","OLP","OUT","PCH","PEAK","PK","PLD","PPG","PPRO","PSA","PSB","REG","RHP","RMR","RVI","SBRA","SCCO","SLG","SNR","SPG",
+"SRC","SPR","SUI","STOR","STWD","TROX","TCO","UDR","UMH","VNO","VMC","VTR","WELL","WPC","WRE","WY","XPO"]
+
+        Greater than 40 dates:
+        ["AHT","AKR","AMT","ARE","ARR","AVB","AVD","BXP","CLDT","CMCT","CUZ","CXW","DHC","DLR","EARN","ECL","EPR","EQR","ESS","EXR","FR","GOOD","HT","IRM","IRT","KIM","KRG","LAND","LXP","LSI","LTC","MAA","MLM","MPW","NEM","NEU","NNN","NLY","NHI","NUE","NYMT","O","OLP","PCH","PEAK","PLD","PPG","PSA","REG","RHP","SBRA","SCCO","SLG","SPG","SRC","SUI","STWD","UDR","UMH","VNO","VMC","VTR","WELL","WPC","WY",]
+
+
+
+
+# Utilities
+["AES","AGL","APRN","AVA","AY","BEP","BIP","BLDP","CMS","CNP","CPLG","CVA","CWEN","CWEN.A","D","DUK","ED","EE","EIX",
+"ENIA","ENPH","ETR","EXC","FCEL","FE","GEVO","IDA","JKS","LNT","NEE","NEP","NI","NRG","NVEE","NFE","ORA","PEG","PEGI",
+"PCG","PLUG","PNM","PNW","REGI","RUN","SEDG","SO","SPWR","SRE","SJI","TAC","TGS","TERP","TPIC","TRNE","VSLR","VST","WEC","WR","XEL"]
+
+        Greater than 40 dates:
+        ["AES","AVA","BEP","BIP","CMS","CNP","D","DUK","ED","EIX","ETR","EXC","FE","IDA","LNT","NEE","NI","NRG","ORA","PEG","PCG","PNM","PNW","SO","SRE","SJI","TAC","WEC","XEL"]
+
