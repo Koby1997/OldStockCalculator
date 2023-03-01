@@ -148,3 +148,11 @@ The first loop then iterates over the stock objects again.
 The second loop iterates over the current stock's multiple_change list and takes the value at index [i] and adds it to index [i] of our FINAL list, then divide by 2 to get the average. 
 once this goes through all the stocks, we now have a list of the average change over all stocks for a certain date range.
 Lastly we iterate over that list to print out the final results
+
+
+
+
+
+Scratch notes:
+need to do: pip install openpyxl
+in order to write to excel files

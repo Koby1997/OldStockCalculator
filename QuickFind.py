@@ -1,65 +1,61 @@
 import yfinance as yf
 import numpy as np
 import datetime
+from StockClass import Stock
 
 
-# # List of tickers to make
-# all_tickers = [
-#     "AAPL", "ABT", "ADBE", "AMAT", "AMGN",
-#     "AXP", "BA", "BAC", "BLK", "BMY", "CAT", "CMCSA", "COST",
-#     "CVS", "CVX", "DIS", "F", "GE", "GS",
-#     "HD", "HON", "IBM", "JCI", "JNJ", "JPM", "KO", "LLY",
-#     "LOW", "MA", "MDLZ", "MDT", "MMM", "MO", "MRK", "MSFT", "MU",
-#     "NKE", "NEE", "ORCL", "PFE", "PG", "PM",
-#     "QCOM", "RTX", "SLB", "SPG", "T", "TXN", "UNH",
-#     "UNP", "UPS", "V", "VLO", "VZ", "WBA", "WFC", "WMT", "XOM"
-# ] #64 Stocks
-# ["PXD","MO","VZ","KMI","OKE","T","WBA","IP","PRU","PM","NEM","F","DOW","HAS","LYB","PNW","D","NRG","KEY","VFC","TFC","AMCR","AAP","IVZ","BBY"]
+stock_symbols = ["PXD","MO","VZ","KMI","OKE","T","WBA","IP","PRU","PM","NEM","F","DOW","HAS","LYB","PNW","D","NRG","KEY","VFC","TFC","AMCR","AAP","IVZ","BBY"]
+stock_list = []
 
-
-
-#["MO","VZ","OKE","T","WBA","IP","PM","NEM","F","HAS","PNW","D","KEY","VFC","TFC","AAP","IVZ","BBY"]
-
-all_tickers = ["MO","VZ","OKE"]
-
-
-
-
+for symbol in stock_symbols:
+    stock = Stock(symbol)
+    stock_list.append(stock)
 
 
 count = 0
 
-
-
 ticker_success_count = 0
 
+final_list = []
+
 #loop through all stocks listed above
-for symbol in all_tickers:
+for stock in stock_list:
     # Print the list of all available stock tickers
     try:
-        stock = yf.Ticker(symbol)
+        current_stock_ticker = yf.Ticker(stock.symbol)
     except ValueError:
-        print("Could not find data for symbol: " + symbol)
+        print("Could not find data for symbol: " + stock)
         continue
 
-
-    dividends = stock.dividends
-
+    dividends = current_stock_ticker.dividends
     # Get all of the ex-dividend dates
-    ex_dividend_dates = dividends.index.to_pydatetime()
+    try:
+
+        ex_dividend_dates = dividends.index.to_pydatetime()
+    except:
+        print("didn't work, delete ", stock.symbol)
+        continue
 
     # # Print the ex-dividend dates
-    # print(f"The ex-dividend dates for {symbol} are:")
+    # print(f"The ex-dividend dates for {stock} are:")
     # for date in ex_dividend_dates:
     #     print(date)
 
 
-    if len(ex_dividend_dates) > 0:
-        print(symbol, "        good     ", len(ex_dividend_dates))
+    if len(ex_dividend_dates) > 40:
+        print(stock.symbol, "        good     ", len(ex_dividend_dates))
+        final_list.append(stock)
         count += len(ex_dividend_dates)
     else:
-        print(symbol, " BAD")
-
-
+        print(stock.symbol, " BAD")
 
 print("total:     ", count)
+
+
+#copy this output to work with any script. Remember to delete the last comma
+print("[", end="")
+for stock in final_list:
+    print("\"", stock.symbol, "\",", end="")
+print("]", end="")
+
+

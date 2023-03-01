@@ -1,21 +1,10 @@
 import yfinance as yf
 import datetime
+import pandas as pd
 from StockClass import Stock
 
-
 # List of tickers to make
-stock_symbols = ["MO","VZ","OKE"]
-# ["APPL", "APPL"]# "MO","VZ","OKE","T"]
-# [
-#     "AAPL", "ABBV", "ABT", "ACN", "ADBE", "AMAT", "AMGN",
-#     "AXP", "BA", "BAC", "BLK", "BMY", "CMCSA", "COST",
-#     "CSCO", "CVS", "CVX", "DIS", "DOW", "F", "GE", "GS"]
-#     "HD", "HON", "IBM", "JCI", "JNJ", "JPM", "KO", "LLY",
-#     "LOW", "MA", "MDLZ", "MDT", "MMM", "MO", "MRK", "MSFT", "MU",
-#     "NKE", "NVDA", "NEE", "ORCL", "PFE", "PG", "PM",
-#     "QCOM", "RTX", "SLB", "SPG", "T", "TMO", "TXN", "UNH",
-#     "UNP", "UPS", "V", "VLO", "VZ", "WBA", "WFC", "WMT", "XOM"
-# ] #64 Stocks
+stock_symbols = ["ADBE"]
 stock_list = []
 
 
@@ -47,9 +36,9 @@ with open('output.txt', 'w') as f:
         enough_data = True
 
 
-        for buy_date in range(7,21):
+        for buy_date in range(7,21 + 1):
 
-            for sell_day in range(-2,3):
+            for sell_day in range(-3,3 + 1):
                 data_points = 0
 
                 for date in ex_dividend_dates:
@@ -62,7 +51,7 @@ with open('output.txt', 'w') as f:
                     one_day_dt = datetime.timedelta(days=1)
 
                     if current_stock_ticker.history(start=(date - buy_date_dt - one_day_dt), end=(date - sell_day_dt)).empty:
-                        print("Error: Skipping because no data. Not adding to the calculations\n")
+                        # print("Error: Skipping because no data. Not adding to the calculations\n")
                         continue
                     #count the data point because it made it past this check
                     data_points += 1
