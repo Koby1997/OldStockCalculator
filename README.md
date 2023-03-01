@@ -11,8 +11,10 @@ I have a simple stock trading strategy that I cannot see the fallacy in. It is s
   &nbsp;
 
 ## LUCAS NOTES:
+&nbsp;
+  ## How the code is organized/How it works:
 
-  
+
 ### QuickFind.py
 
 The QuickFind.py is really just my like quick script to try something or learn something from python. Right now, it is a quick script to see if
@@ -30,7 +32,7 @@ So to use the QuickFind.py, all you really need to do is just change the "all_ti
   &nbsp;
   &nbsp;
 
-### updatedExdividendDates.py
+### UpdatedExdividendDates.py
 
 Ok so the most up to date script is UpdatedExdividendDates.py 
 That is the script I am trying to get data from currently.
@@ -67,7 +69,7 @@ Things I want to figure out to save a ton of time:
 &nbsp;
 &nbsp;
 
-## How the code is organized/How it works:
+### StockClass.py
 
 There is a StockClass.py that organizes how we can keep track of individual stocks. Each stock object will have:
 
@@ -115,27 +117,27 @@ The top is just the list of stocks we want to check.
 We do a quick for loop to actually create the Stock objects for each stock symbol we gave it.
 We then have a quadruple for loop. Not efficient, but I dunno how else to do this more efficiently haha this is why the code is so slow. But we are also going through a ton of data.
 
- 1. **Loop through each stock**
+>1. **Loop through each stock**
 	  Find all the ex-dividend dates for this stock and save them in a list
 	  Convert the data to the type we can use
 	 
-	2. **Loop through each buy day**
+>>>2. **Loop through each buy day**
 	
-		3. **Loop through each sell day**
+>>>>>3. **Loop through each sell day**
 			Keep track of data points, we want at least 50 in each date range
 			
-			4. **Loop through each ex_dividend date that the stock has**
+>>>>>>>4. **Loop through each ex_dividend date that the stock has**
 			This is where the comparisons happen
 			We get the data from the buy/sell dates and find the difference price wise and percentage wise and append that information to the correct list for that stock.
 			
-		 _3. **Back in the Sell day loop**
+>>>>>_3. **Back in the Sell day loop**
 			 Print the info for that date range
 			 "Clean" the single properties to restart for the next date range with a new Sell day
 			 
-	 _2. **Back in the Sell day loop**
+>>>_2. **Back in the Sell day loop**
 	 Just checking if there was enough data points
 
-_1. **Finished current stock**
+>_1. **Finished current stock**
 This stock object now has all the information we want
 Print information to the terminal just to help know the progress of the script
 
@@ -143,6 +145,6 @@ After the loops are done, we can now calculate our total averages across all sto
 We do a double for loop now
 Before the loops, we create out FINAL empty lists
 The first loop then iterates over the stock objects again.
-The second loop iterates over the current stock's multiple_change list and takes the value at index [i] and adds it to index [i] of our FINAL list, then divide by 2 to get the average.
+The second loop iterates over the current stock's multiple_change list and takes the value at index [i] and adds it to index [i] of our FINAL list, then divide by 2 to get the average. 
 once this goes through all the stocks, we now have a list of the average change over all stocks for a certain date range.
 Lastly we iterate over that list to print out the final results
