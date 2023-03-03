@@ -1,44 +1,27 @@
-# import pandas as pd
+import yfinance as yf
+import pandas as pd
+import time
 
-# # create a dictionary of data
-# data = {'name': ['Alice', 'Bob', 'Charlie', 'Dave'],
-#         'age': [25, 32, 18, 47],
-#         'country': ['USA', 'Canada', 'France', 'UK']}
+# Define a list of stock tickers
+stock_tickers = ['AAPL', 'GOOG', 'MSFT', 'AMZN']
 
-# # create a pandas DataFrame from the data
-# df = pd.DataFrame(data)
-
-# # save the DataFrame to an Excel file
-# df.to_excel('test.xlsx', index=False)
+start_time = time.time()
+# Retrieve all available historical data for each stock in the list
+stock_data = yf.download(stock_tickers)
+end_time = time.time()
+print("Total time = ", end_time - start_time)
 
 
+print(stock_data.columns)
 
-from openpyxl import Workbook
-from openpyxl import load_workbook
-import os
+s = time.time()
+apple = yf.Ticker("AAPL")
+apple_data = apple.history(period="max")
+e = time.time()
+print("YO:   ", e - s)
 
-# create a new workbook and select the active worksheet
-wb = load_workbook('Data.xlsx')
-ws = wb.active
-ws2 = wb.create_sheet("This new name")
 
-# create a list of data
-data = [1, 2, 3, 4, 5,
-        6, 7, 8, 9, 10,
-        1111111, 12, 13, 14, 15,
-        16, 17, 18, 19, 20,
-        21, 22, 23, 24, 25]
 
-# write the data to the worksheet
-row = 1
-col = 1
-for value in data:
-    ws2.cell(row=5+row, column=5+col, value=value)
-    col += 1
-    if col > 5:
-        col = 1
-        row += 1
+print("Check")
+print(apple_data)
 
-# save the workbook to a file
-wb.save('Data.xlsx')
-os.system('start excel.exe "Data.xlsx"')

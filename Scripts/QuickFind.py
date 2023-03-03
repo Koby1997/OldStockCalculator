@@ -4,7 +4,7 @@ import datetime
 from StockClass import Stock
 
 
-stock_symbols = ["PXD","MO","VZ","KMI","OKE","T","WBA","IP","PRU","PM","NEM","F","DOW","HAS","LYB","PNW","D","NRG","KEY","VFC","TFC","AMCR","AAP","IVZ","BBY"]
+stock_symbols = ["AHT","AKR","AMT","ARE","ARR","AVB","AVD","BXP","CLDT","CMCT","CUZ","CXW","DHC","DLR","EARN","ECL","EPR","EQR","ESS","EXR","FR","GOOD","HT","IRM","IRT","KIM","KRG","LAND","LXP","LSI","LTC","MAA","MLM","MPW","NEM","NEU","NNN","NLY","NHI","NUE","NYMT","O","OLP","PCH","PEAK","PLD","PPG","PSA","REG","RHP","SBRA","SCCO","SLG","SPG","SRC","SUI","STWD","UDR","UMH","VNO","VMC","VTR","WELL","WPC","WY",]
 stock_list = []
 
 for symbol in stock_symbols:

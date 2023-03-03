@@ -1,10 +1,19 @@
 import yfinance as yf
 import datetime
 import pandas as pd
+import os
 from StockClass import Stock
+from openpyxl import load_workbook
+from openpyxl.styles import Font, Border, Side
+
+
+#Excel settings
+work_book = load_workbook('../Excel_Sheets/Data.xlsx')
+
+
 
 # List of tickers to make
-stock_symbols = ["ADBE"]
+stock_symbols = ["GOOD","HT","IRM","IRT","KIM","KRG","LAND","LXP","LSI","LTC","MAA","MLM","MPW","NEM","NEU","NNN","NLY","NHI","NUE","NYMT","O","OLP","PCH","PEAK","PLD","PPG","PSA","REG","RHP","SBRA","SCCO","SLG","SPG","SRC","SUI","STWD","UDR","UMH","VNO","VMC","VTR","WELL","WPC","WY",]
 stock_list = []
 
 
@@ -18,8 +27,10 @@ with open('output.txt', 'w') as f:
 
     keep_count = 1
     #loop through all stocks listed above
-    for stock in stock_list.copy():
     #We use a copy because we may need to altar the actual list during the loop
+    for stock in stock_list.copy():
+    
+    #We want to make the ticker used by yfinance to get the data
         try:
             current_stock_ticker = yf.Ticker(stock.symbol)
         except ValueError:
@@ -32,10 +43,9 @@ with open('output.txt', 'w') as f:
         ex_dividend_dates = dividends.index.to_pydatetime()
         # print(ex_dividend_dates)
 
+
         
         enough_data = True
-
-
         for buy_date in range(7,21 + 1):
 
             for sell_day in range(-3,3 + 1):
@@ -98,6 +108,35 @@ with open('output.txt', 'w') as f:
         print((keep_count / len(stock_symbols)) * 100, " o/o complete.     just did   ", keep_count)
         keep_count = keep_count + 1
 
+
+
+
+        #We are done with the stock, so save its data to the Excel doc
+        work_sheet = work_book.create_sheet(stock.symbol)
+
+        # add row titles
+        row_titles = ["7","8","9","10","11","12","13","14","15","16","17","18","19","20","21"]
+        for i, title in enumerate(row_titles):
+            work_sheet.cell(row=i+2, column=1, value=title).font = Font(bold=True)
+
+        # add column titles
+        col_titles = ["-3", "-2", "-1", "0", "1", "2", "3"]
+        for i, title in enumerate(col_titles):
+            work_sheet.cell(row=1, column=i+2, value=title).font = Font(bold=True)
+
+        
+        # write the data to the worksheet
+        row = 2
+        col = 2
+        for value in stock.multiple_perc_change:
+            work_sheet.cell(row=row, column=col, value=value)
+            col += 1
+            if col > 8:
+                col = 2
+                row += 1
+        
+        work_book.save('../Excel_Sheets/Data.xlsx')
+
             
 
     print("fully done with going through the date ranges")
@@ -141,3 +180,4 @@ with open('output.txt', 'w') as f:
 
 
     print("wow", file=f)
+    os.system('start excel.exe "../Excel_Sheets/Data.xlsx"')
