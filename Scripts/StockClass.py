@@ -153,11 +153,11 @@ class Stock:
     
     def clean_single_data(cls):
         #If the averages haven't been calculated for some reason, calculate them
-        if cls.single_avg_price_change == 0:
-            cls.calculate_avg_single_price_change(cls)
+        # if cls.single_avg_price_change == 0:
+        #     cls.calculate_avg_single_price_change(cls)
         
-        if cls.single_avg_perc_change == 0:
-            cls.calculate_avg_single_perc_change(cls)
+        # if cls.single_avg_perc_change == 0:
+        #     cls.calculate_avg_single_perc_change(cls)
         
         #add the averages from the singles to the multiples
         cls.multiple_price_change.append(cls.single_avg_price_change)
