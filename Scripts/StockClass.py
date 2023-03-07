@@ -14,7 +14,8 @@ class Stock:
         self._multiple_price_change = []
         self._multiple_perc_change = []
 
-
+# TODO make a variable to save the highest average
+# TODO make a variable(s) to save the outliers in a list
 
     @property
     def symbol(self):
@@ -26,7 +27,7 @@ class Stock:
 
 
 
-#single
+#Single
     @property
     def single_avg_price_change(self):
         return self._single_avg_price_change
@@ -45,7 +46,6 @@ class Stock:
         self._single_avg_perc_change = value
 
     
-
     @property
     def single_price_change(self):
         return self._single_price_change
@@ -65,25 +65,7 @@ class Stock:
 
 
 
-#multiple
-    @property
-    def multiple_avg_price_change(self):
-        return self._multiple_avg_price_change
-
-    @multiple_avg_price_change.setter
-    def multiple_avg_price_change(self, value):
-        self._multiple_avg_price_change = value
-
-
-    @property
-    def multiple_avg_perc_change(self):
-        return self._multiple_avg_perc_change
-
-    @multiple_avg_perc_change.setter
-    def multiple_avg_perc_change(self, value):
-        self._multiple_avg_perc_change = value
-
-
+#Multiple
 
     @property
     def multiple_price_change(self):
@@ -104,10 +86,7 @@ class Stock:
 
     
 
-
-
-
-    
+#Averages
     def calculate_avg_single_price_change(cls):
         average = sum(cls.single_price_change) / len(cls.single_price_change)
         cls._single_avg_price_change = average
@@ -119,45 +98,11 @@ class Stock:
         cls._single_avg_perc_change = average
         return average
 
-    # @classmethod
-    # def calculate_single_price_decrease_chance(cls):
-    #     count_negative = 0
-    #     if len(cls.single_price_change) > 0:
-    #         for number in cls.single_price_change:
-    #             if number < 0:
-    #                 count_negative += 1
-    #         perc_negative = (count_negative / len(cls.single_price_change)) * 100
-
-    #     cls._single_price_decrease_chance = perc_negative
-
-
-    
-
-
-##just realized I don't need these
-    
-    def calculate_avg_multiple_price_change(cls):
-        average = sum(cls.multiple_price_change) / len(cls.multiple_price_change)
-        cls._multiple_avg_price_change = average
-        return average
-
-    
-    def calculate_avg_multiple_perc_change(cls):
-        average = sum(cls.multiple_perc_change) / len(cls.multiple_perc_change)
-        cls._multiple_avg_perc_change = average
-        return average
 
 
 
-
-    
+#Class methods
     def clean_single_data(cls):
-        #If the averages haven't been calculated for some reason, calculate them
-        # if cls.single_avg_price_change == 0:
-        #     cls.calculate_avg_single_price_change(cls)
-        
-        # if cls.single_avg_perc_change == 0:
-        #     cls.calculate_avg_single_perc_change(cls)
         
         #add the averages from the singles to the multiples
         cls.multiple_price_change.append(cls.single_avg_price_change)

@@ -10,13 +10,9 @@ from openpyxl.styles import Font, Border, Side
 #Excel settings
 work_book = load_workbook('../Excel_Sheets/Data.xlsx')
 
-
-
-# List of tickers to make
+#List of tickers to make
 stock_symbols = ["PXD","MO","VZ","KMI","OKE","T","WBA","IP","PRU","PM","NEM","F","HAS","LYB","PNW","D","NRG","KEY","VFC","TFC","AAP","IVZ","BBY","AAPL","ADSK","AVGO","CSCO","HPQ","IBM","INTC","INTU","KLAC","MCHP","MRVL","MSFT","NVDA","ORCL","QCOM","TXN","V","BCE","CMCSA","DIS","IPG","LUMN","OMC","T","TM","VIV","VOD","VZ","BBY","DIS","F","GPS","GRMN","HD","LOW","MCD","MAR","NKE","RCL","RL","SBUX","TGT","WMT","YUM","BGS","CAG","CL","CLX","COST","CPB","CVS","DEO","EL","FLO","GIS","HSY","JJSF","K","KDP","KO","KMB","KR","MDLZ","MKC","MO","PEP","SJM","TAP","TSN","WBA","WMT","APA","CNX","CPG","CVE","D","DVN","EGN","ENLC","ENLK","EOG","EQNR","EQT","HES","HP","KMI","MPC","MRO","OKE","OXY","PSX","PTEN","SLB","SM","SU","SWN","VLO","XOM","AFL","AMP","AON","BAC","BEN","BK","BLK","BX","C","CINF","CMA","CME","CNO","COF","DFS","EQR","FITB","GS","HIG","HST","IVZ","JPM","L","LNC","MA","MET","MMC","MTB","MS","NTRS","PNC","PRU","RE","RF","SCHW","STT","TROW","TRV","UNM","USB","V","WFC","ZION","ABT","AMGN","BAX","BMY","CAH","COO","CVS","DHR","JNJ","MCK","MDT","MRK","PFE","RMD","SYK","TFX","TMO","UNH","WBA","WST","XLV","ZBH","AME","AVY","BA","CAT","CSL","DE","DOV","EFX","ECL","EMR","ETN","FDX","FLS","GE","GD","GWW","HON","ITW","LHX","LMT","MMM","MAS","NSC","NOC","PCAR","PH","PNR","ROP","RTX","SEE","SLB","TXT","UNP","UPS","WAB","WM","XYL","AA","ALB","APD","AVD","AVNT","CE","DD","ECL","EMN","FCX","FMC","FNV","GOLD","HUN","IFF","LIN","MLM","MOS","NEU","NEM","NUE","PPG","RPM","SCCO","SHW","SQM","SXT","TG","VALE","VMC","WPM","X","AHT","AKR","AMT","ARE","ARR","AVB","AVD","BXP","CLDT","CMCT","CUZ","CXW","DHC","DLR","EARN","ECL","EPR","EQR","ESS","EXR","FR","GOOD","HT","IRM","IRT","KIM","KRG","LAND","LXP","LSI","LTC","MAA","MLM","MPW","NEM","NEU","NNN","NLY","NHI","NUE","NYMT","O","OLP","PCH","PEAK","PLD","PPG","PSA","REG","RHP","SBRA","SCCO","SLG","SPG","SRC","SUI","STWD","UDR","UMH","VNO","VMC","VTR","WELL","WPC","WY","AES","AVA","BEP","BIP","CMS","CNP","D","DUK","ED","EIX","ETR","EXC","FE","IDA","LNT","NEE","NI","NRG","ORA","PEG","PCG","PNM","PNW","SO","SRE","SJI","TAC","WEC","XEL"]
-
 stock_list = []
-
 
 #Create all stock objects now
 for symbol in stock_symbols:
@@ -33,7 +29,8 @@ with open('logs.txt', 'w') as f:
     #We use a copy because we may need to altar the actual list during the loop
     for stock in stock_list.copy():
     
-    #We want to make the ticker used by yfinance to get the data
+    #We want to make the ticker used by yfinance to get the dividend dates
+    #We use .download() to save all the info about the stock in one variable
         try:
             current_stock_ticker = yf.Ticker(stock.symbol)
             stock_data = yf.download(stock.symbol)
@@ -57,7 +54,7 @@ with open('logs.txt', 'w') as f:
         #fill the NaN weekend data with the next date we have in the future
         stock_data = stock_data.bfill()
 
-
+        #Used to know if we should just skip the stock and not add to our Data file
         enough_data = True
         for buy_day in range(7,21 + 1):
 
@@ -82,12 +79,11 @@ with open('logs.txt', 'w') as f:
                     except:
                         print(stock.symbol, "       No data for this sell day ", sell_date_dt, "    Skipping", file=f)
                         continue
-
-
-
+                    
+                    #Successfully got buy/sell prices, so we will get a data point
                     data_points += 1
 
-                    price_difference = sell_date_price - buy_date_price #want positive? positive means stock went up. sell date - buy date
+                    price_difference = sell_date_price - buy_date_price
                     stock.single_price_change.append(price_difference)
                     
                     if buy_date_price == 0:
@@ -118,9 +114,12 @@ with open('logs.txt', 'w') as f:
 
         if enough_data == False:
             continue
+
+        # TODO end up making this a function
         #We are done with the stock, so save its data to the Excel doc
         work_sheet = work_book.create_sheet(stock.symbol)
 
+        # TODO don't hard code the titles, make it flexible if the input changes
         # add row titles
         row_titles = ["7","8","9","10","11","12","13","14","15","16","17","18","19","20","21"]
         for i, title in enumerate(row_titles):
@@ -153,6 +152,9 @@ with open('logs.txt', 'w') as f:
 
     first = 0
 
+
+    # TODO save things like highest/lowest values for the stock
+    # TODO do whatever happens below before saving to excel to add the data
     # for stock in stock_list:
     #     print("Each day-range percent average for ", stock.symbol, file=f)
 
