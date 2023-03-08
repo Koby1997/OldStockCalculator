@@ -2,17 +2,25 @@ class Stock:
     def __init__(self, symbol):
         self._symbol = symbol
 
+        #Which was the best date range
+        self._highest_perc_avg
+
         #single date range gets added to the list        
         self._single_price_change = []
         self._single_perc_change = []
 
-        #once all the date ranges have been calculated, find the average and save them here
+        #Once all the date ranges have been calculated, find the average and save them here
+        #Really don't need these but it helps me think
         self._single_avg_price_change = 0
         self._single_avg_perc_change = 0
 
         #Once the average is found for a single date range, put it in here, reset the variables above
         self._multiple_price_change = []
         self._multiple_perc_change = []
+
+        #How many outliers per date range
+        self._low_perc_outliers = []
+        self._high_perc_outliers = []
 
 # TODO make a variable to save the highest average
 # TODO make a variable(s) to save the outliers in a list
@@ -24,6 +32,15 @@ class Stock:
     @symbol.setter
     def symbol(self, value):
         self._symbol = value
+
+
+    @property
+    def highest_perc_avg(self):
+        return self._highest_perc_avg
+
+    @highest_perc_avg.setter
+    def highest_perc_avg(self, value):
+        self._highest_perc_avg = value
 
 
 
@@ -83,6 +100,28 @@ class Stock:
     @multiple_perc_change.setter
     def multiple_perc_change(self, value):
         self._multiple_perc_change = value
+
+
+
+
+#Outliers
+
+    @property
+    def low_perc_outliers(self):
+        return self._low_perc_outliers
+
+    @low_perc_outliers.setter
+    def low_perc_outliers(self, value):
+        self._low_perc_outliers = value
+
+
+    @property
+    def high_perc_outliers(self):
+        return self._high_perc_outliers
+
+    @high_perc_outliers.setter
+    def high_perc_outliers(self, value):
+        self._high_perc_outliers = value
 
     
 
