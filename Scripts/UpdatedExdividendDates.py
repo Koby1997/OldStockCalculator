@@ -8,7 +8,7 @@ from openpyxl.styles import Font, Border, Side
 
 
 #Excel settings
-work_book = load_workbook('../Excel_Sheets/Data2.xlsx')
+work_book = load_workbook('../Excel_Sheets/Data.xlsx')
 
 #List of tickers to make
 stock_symbols = ["PXD","MO","VZ","KMI","OKE"]#,"T","WBA","IP","PRU","PM","NEM","F","HAS","LYB","PNW","D","NRG","KEY","VFC","TFC","AAP","IVZ","BBY","AAPL","ADSK","AVGO","CSCO","HPQ","IBM","INTC","INTU","KLAC","MCHP","MRVL","MSFT","NVDA","ORCL","QCOM","TXN","V","BCE","CMCSA","DIS","IPG","LUMN","OMC","T","TM","VIV","VOD","VZ","BBY","DIS","F","GPS","GRMN","HD","LOW","MCD","MAR","NKE","RCL","RL","SBUX","TGT","WMT","YUM","BGS","CAG","CL","CLX","COST","CPB","CVS","DEO","EL","FLO","GIS","HSY","JJSF","K","KDP","KO","KMB","KR","MDLZ","MKC","MO","PEP","SJM","TAP","TSN","WBA","WMT","APA","CNX","CPG","CVE","D","DVN","EGN","ENLC","ENLK","EOG","EQNR","EQT","HES","HP","KMI","MPC","MRO","OKE","OXY","PSX","PTEN","SLB","SM","SU","SWN","VLO","XOM","AFL","AMP","AON","BAC","BEN","BK","BLK","BX","C","CINF","CMA","CME","CNO","COF","DFS","EQR","FITB","GS","HIG","HST","IVZ","JPM","L","LNC","MA","MET","MMC","MTB","MS","NTRS","PNC","PRU","RE","RF","SCHW","STT","TROW","TRV","UNM","USB","V","WFC","ZION","ABT","AMGN","BAX","BMY","CAH","COO","CVS","DHR","JNJ","MCK","MDT","MRK","PFE","RMD","SYK","TFX","TMO","UNH","WBA","WST","XLV","ZBH","AME","AVY","BA","CAT","CSL","DE","DOV","EFX","ECL","EMR","ETN","FDX","FLS","GE","GD","GWW","HON","ITW","LHX","LMT","MMM","MAS","NSC","NOC","PCAR","PH","PNR","ROP","RTX","SEE","SLB","TXT","UNP","UPS","WAB","WM","XYL","AA","ALB","APD","AVD","AVNT","CE","DD","ECL","EMN","FCX","FMC","FNV","GOLD","HUN","IFF","LIN","MLM","MOS","NEU","NEM","NUE","PPG","RPM","SCCO","SHW","SQM","SXT","TG","VALE","VMC","WPM","X","AHT","AKR","AMT","ARE","ARR","AVB","AVD","BXP","CLDT","CMCT","CUZ","CXW","DHC","DLR","EARN","ECL","EPR","EQR","ESS","EXR","FR","GOOD","HT","IRM","IRT","KIM","KRG","LAND","LXP","LSI","LTC","MAA","MLM","MPW","NEM","NEU","NNN","NLY","NHI","NUE","NYMT","O","OLP","PCH","PEAK","PLD","PPG","PSA","REG","RHP","SBRA","SCCO","SLG","SPG","SRC","SUI","STWD","UDR","UMH","VNO","VMC","VTR","WELL","WPC","WY","AES","AVA","BEP","BIP","CMS","CNP","D","DUK","ED","EIX","ETR","EXC","FE","IDA","LNT","NEE","NI","NRG","ORA","PEG","PCG","PNM","PNW","SO","SRE","SJI","TAC","WEC","XEL"]
@@ -150,8 +150,52 @@ with open('logs.txt', 'w') as f:
             if col > 8:
                 col = 2
                 row += 1
+
+
+# TODO to clean up later, but for now this will work
+
+
+        row_titles = ["7","8","9","10","11","12","13","14","15","16","17","18","19","20","21"]
+        for i, title in enumerate(row_titles):
+            work_sheet.cell(row=i+22, column=1, value=title).font = Font(bold=True)
+            work_sheet.cell(row=i+22, column=12, value=title).font = Font(bold=True)
+
+        # add column titles
+        col_titles = ["-3", "-2", "-1", "0", "1", "2", "3"]
+        for i, title in enumerate(col_titles):
+            work_sheet.cell(row=21, column=i+2, value=title).font = Font(bold=True)
+            work_sheet.cell(row=21, column=i+13, value=title).font = Font(bold=True)
+
         
-        work_book.save('../Excel_Sheets/Data2.xlsx')
+        # write the data to the worksheet
+        row = 22
+        col = 2
+        for value in stock.low_perc_outliers:
+            work_sheet.cell(row=row, column=col, value=value)
+            col += 1
+            if col > 8:
+                col = 2
+                row += 1
+
+
+        # write the data to the worksheet
+        row = 22
+        col = 13
+        for value in stock.high_perc_outliers:
+            work_sheet.cell(row=row, column=col, value=value)
+            col += 1
+            if col > 19:
+                col = 13
+                row += 1
+
+
+
+
+
+
+
+        
+        work_book.save('../Excel_Sheets/Data.xlsx')
 
             
 
@@ -198,4 +242,4 @@ with open('logs.txt', 'w') as f:
 
 
     print("wow", file=f)
-    os.system('start excel.exe "../Excel_Sheets/Data2.xlsx"')
+    os.system('start excel.exe "../Excel_Sheets/Data.xlsx"')

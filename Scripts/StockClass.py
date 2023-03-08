@@ -3,7 +3,7 @@ class Stock:
         self._symbol = symbol
 
         #Which was the best date range
-        self._highest_perc_avg
+        self._highest_perc_avg = 0
 
         #single date range gets added to the list        
         self._single_price_change = []
