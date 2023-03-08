@@ -20,7 +20,7 @@ for symbol in stock_symbols:
     stock_list.append(stock)
         
 
-with open('logs.txt', 'w') as f:
+with open('../logs.txt', 'w') as f:
 
     #just to help know how much time is left on the script
     keep_count = 1
