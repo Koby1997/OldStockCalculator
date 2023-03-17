@@ -2,6 +2,7 @@ import yfinance as yf
 import datetime
 import pandas as pd
 import os
+import sys
 from StockClass import Stock
 from openpyxl import load_workbook
 from openpyxl.styles import Font, Border, Side
@@ -9,6 +10,41 @@ from openpyxl.styles import Font, Border, Side
 # TODO try to make bell curve out of outliers. Buckets, percentages
 # TODO make a "Golden" list that actually performed well (High over 3%)?
 # TODO Standard deviation:      (each values - avg)^2. Do each individually. Add each ending value. Divide by amount of data points. Square root of that final sum is the SD. Higher SD = more volotile
+
+print(  """\nEnter the ranges of buy and sell dates that you want to compute.
+The number you input is the number of days BEFORE the stock's Ex-dividend date.
+You can do negative numbers to act as days after the Ex-dividend date\n
+        EXAMPLE:
+        
+        Beginning of Buy Date range: 21
+        End of Buy Date range: 7
+        Beginning of Sell Date range: 3
+        End of Sell Date range: -3
+
+        If you want to calculate the averages for all possibilities between buying 21 days before up to 7 days before
+        and for selling 3 days before to 3 days after, you would input the values above.
+        Now input your wanted values\n\n
+        """)
+
+beginning_buy_range = int(input("Beginning of Buy Date range: "))
+end_buy_range = int(input("End of Buy Date range: "))
+beginning_sell_range = int(input("Beginning of Sell Date range: "))
+end_sell_range = int(input("End of Sell Date range: "))
+
+# Do logic checks now to make sure date ranges work
+
+# Just switch dates if the beginning/end date is further in the past than the beginning
+if end_buy_range > beginning_buy_range:
+    end_buy_range, beginning_buy_range = beginning_buy_range, end_buy_range
+
+if end_sell_range > beginning_sell_range:
+    end_sell_range, beginning_sell_range = beginning_sell_range, end_buy_range
+
+# Check if we are selling before we buy
+if beginning_sell_range >= end_buy_range:
+    print("ERROR: Trying to sell before buying")
+    print("Exiting Script")
+    sys.exit()
 
 
 # TODO see if you can close the workbook if it is already open
@@ -62,9 +98,9 @@ with open('../logs.txt', 'w') as f:
 
         #Used to know if we should just skip the stock and not add to our Data file
         enough_data = True
-        for buy_day in range(7,21 + 1):
+        for buy_day in range(end_buy_range, beginning_buy_range + 1):
 
-            for sell_day in range(-3,3 + 1):
+            for sell_day in range(end_sell_range, beginning_sell_range + 1):
                 data_points = 0
                 low_outliers = 0
                 high_outliers = 0
@@ -132,66 +168,72 @@ with open('../logs.txt', 'w') as f:
             continue
 
         # TODO end up making this a function
-        #We are done with the stock, so save its data to the Excel doc
+        # We are done with the stock, so save its data to the Excel doc
         work_sheet = work_book.create_sheet(stock.symbol)
 
         # TODO don't hard code the titles, make it flexible if the input changes
-        # add row titles
-        row_titles = ["7","8","9","10","11","12","13","14","15","16","17","18","19","20","21"]
+        # Create row titles
+        row_titles = []
+        for num in range(end_buy_range, beginning_buy_range + 1):
+            row_titles.append(str(num))
+
+        # Create Column titles
+        col_titles = []
+        for num in range(end_sell_range, beginning_sell_range + 1):
+            col_titles.append(str(num))
+
+
+
+        # Main data. Averages for each date range
         for i, title in enumerate(row_titles):
             work_sheet.cell(row=i+2, column=1, value=title).font = Font(bold=True)
 
-        # add column titles
-        col_titles = ["-3", "-2", "-1", "0", "1", "2", "3"]
         for i, title in enumerate(col_titles):
             work_sheet.cell(row=1, column=i+2, value=title).font = Font(bold=True)
 
-        
-        # write the data to the worksheet
+        # Write the data to the worksheet
         row = 2
         col = 2
         for value in stock.multiple_perc_change:
             work_sheet.cell(row=row, column=col, value=value)
             col += 1
-            if col > 8:
+            if col >  (2 + beginning_sell_range - end_sell_range):
                 col = 2
                 row += 1
 
 
 # TODO to clean up later, but for now this will work
+# TODO Putting 2 of these here because this is really bad haha I really want to fix this janky code
 
 
-        row_titles = ["7","8","9","10","11","12","13","14","15","16","17","18","19","20","21"]
         for i, title in enumerate(row_titles):
-            work_sheet.cell(row=i+22, column=1, value=title).font = Font(bold=True)
-            work_sheet.cell(row=i+22, column=12, value=title).font = Font(bold=True)
+            work_sheet.cell(row=i+1+beginning_buy_range, column=1, value=title).font = Font(bold=True)
+            work_sheet.cell(row=i+1+beginning_buy_range, column=(5+(beginning_sell_range - end_sell_range)), value=title).font = Font(bold=True)
 
-        # add column titles
-        col_titles = ["-3", "-2", "-1", "0", "1", "2", "3"]
         for i, title in enumerate(col_titles):
-            work_sheet.cell(row=21, column=i+2, value=title).font = Font(bold=True)
-            work_sheet.cell(row=21, column=i+13, value=title).font = Font(bold=True)
+            work_sheet.cell(row=beginning_buy_range, column=i+2, value=title).font = Font(bold=True)
+            work_sheet.cell(row=beginning_buy_range, column=i+6+(beginning_sell_range - end_sell_range), value=title).font = Font(bold=True)
 
         
         # write the data to the worksheet
-        row = 22
+        row = 1+beginning_buy_range
         col = 2
         for value in stock.low_perc_outliers:
             work_sheet.cell(row=row, column=col, value=value)
             col += 1
-            if col > 8:
+            if col > (2 + (beginning_sell_range - end_sell_range)):
                 col = 2
                 row += 1
 
 
         # write the data to the worksheet
-        row = 22
-        col = 13
+        row = 1+beginning_buy_range
+        col = 6+(beginning_sell_range - end_sell_range)
         for value in stock.high_perc_outliers:
             work_sheet.cell(row=row, column=col, value=value)
             col += 1
-            if col > 19:
-                col = 13
+            if col > (5+(beginning_sell_range - end_sell_range)) + (1 + (beginning_sell_range - end_sell_range)):
+                col = 6+(beginning_sell_range - end_sell_range)
                 row += 1
 
 
