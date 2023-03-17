@@ -4,6 +4,7 @@ import pandas as pd
 import os
 import sys
 from StockClass import Stock
+import Helpers
 from openpyxl import load_workbook
 from openpyxl.styles import Font, Border, Side
 
@@ -11,52 +12,24 @@ from openpyxl.styles import Font, Border, Side
 # TODO make a "Golden" list that actually performed well (High over 3%)?
 # TODO Standard deviation:      (each values - avg)^2. Do each individually. Add each ending value. Divide by amount of data points. Square root of that final sum is the SD. Higher SD = more volotile
 
-print(  """\nEnter the ranges of buy and sell dates that you want to compute.
-The number you input is the number of days BEFORE the stock's Ex-dividend date.
-You can do negative numbers to act as days after the Ex-dividend date\n
-        EXAMPLE:
-        
-        Beginning of Buy Date range: 21
-        End of Buy Date range: 7
-        Beginning of Sell Date range: 3
-        End of Sell Date range: -3
-
-        If you want to calculate the averages for all possibilities between buying 21 days before up to 7 days before
-        and for selling 3 days before to 3 days after, you would input the values above.
-        Now input your wanted values\n\n
-        """)
-
-beginning_buy_range = int(input("Beginning of Buy Date range: "))
-end_buy_range = int(input("End of Buy Date range: "))
-beginning_sell_range = int(input("Beginning of Sell Date range: "))
-end_sell_range = int(input("End of Sell Date range: "))
-
-# Do logic checks now to make sure date ranges work
-
-# Just switch dates if the beginning/end date is further in the past than the beginning
-if end_buy_range > beginning_buy_range:
-    end_buy_range, beginning_buy_range = beginning_buy_range, end_buy_range
-
-if end_sell_range > beginning_sell_range:
-    end_sell_range, beginning_sell_range = beginning_sell_range, end_buy_range
-
-# Check if we are selling before we buy
-if beginning_sell_range >= end_buy_range:
-    print("ERROR: Trying to sell before buying")
-    print("Exiting Script")
-    sys.exit()
+(workbook_path,
+beginning_buy_range,
+end_buy_range,
+beginning_sell_range,
+end_sell_range) = Helpers.Collect_User_Input()
 
 
 # TODO see if you can close the workbook if it is already open
+# ? Don't think we can close it unless it only works on windows or linux
 # TODO also create a new workbook if one doesn't exist
-#Excel settings
+# Excel settings
 work_book = load_workbook('../Excel_Sheets/Data.xlsx')
 
-#List of tickers to make
+# List of tickers to make
 stock_symbols = ["PXD","MO","VZ","KMI","OKE"]#,"T","WBA","IP","PRU","PM","NEM","F","HAS","LYB","PNW","D","NRG","KEY","VFC","TFC","AAP","IVZ","BBY","AAPL","ADSK","AVGO","CSCO","HPQ","IBM","INTC","INTU","KLAC","MCHP","MRVL","MSFT","NVDA","ORCL","QCOM","TXN","V","BCE","CMCSA","DIS","IPG","LUMN","OMC","T","TM","VIV","VOD","VZ","BBY","DIS","F","GPS","GRMN","HD","LOW","MCD","MAR","NKE","RCL","RL","SBUX","TGT","WMT","YUM","BGS","CAG","CL","CLX","COST","CPB","CVS","DEO","EL","FLO","GIS","HSY","JJSF","K","KDP","KO","KMB","KR","MDLZ","MKC","MO","PEP","SJM","TAP","TSN","WBA","WMT","APA","CNX","CPG","CVE","D","DVN","EGN","ENLC","ENLK","EOG","EQNR","EQT","HES","HP","KMI","MPC","MRO","OKE","OXY","PSX","PTEN","SLB","SM","SU","SWN","VLO","XOM","AFL","AMP","AON","BAC","BEN","BK","BLK","BX","C","CINF","CMA","CME","CNO","COF","DFS","EQR","FITB","GS","HIG","HST","IVZ","JPM","L","LNC","MA","MET","MMC","MTB","MS","NTRS","PNC","PRU","RE","RF","SCHW","STT","TROW","TRV","UNM","USB","V","WFC","ZION","ABT","AMGN","BAX","BMY","CAH","COO","CVS","DHR","JNJ","MCK","MDT","MRK","PFE","RMD","SYK","TFX","TMO","UNH","WBA","WST","XLV","ZBH","AME","AVY","BA","CAT","CSL","DE","DOV","EFX","ECL","EMR","ETN","FDX","FLS","GE","GD","GWW","HON","ITW","LHX","LMT","MMM","MAS","NSC","NOC","PCAR","PH","PNR","ROP","RTX","SEE","SLB","TXT","UNP","UPS","WAB","WM","XYL","AA","ALB","APD","AVD","AVNT","CE","DD","ECL","EMN","FCX","FMC","FNV","GOLD","HUN","IFF","LIN","MLM","MOS","NEU","NEM","NUE","PPG","RPM","SCCO","SHW","SQM","SXT","TG","VALE","VMC","WPM","X","AHT","AKR","AMT","ARE","ARR","AVB","AVD","BXP","CLDT","CMCT","CUZ","CXW","DHC","DLR","EARN","ECL","EPR","EQR","ESS","EXR","FR","GOOD","HT","IRM","IRT","KIM","KRG","LAND","LXP","LSI","LTC","MAA","MLM","MPW","NEM","NEU","NNN","NLY","NHI","NUE","NYMT","O","OLP","PCH","PEAK","PLD","PPG","PSA","REG","RHP","SBRA","SCCO","SLG","SPG","SRC","SUI","STWD","UDR","UMH","VNO","VMC","VTR","WELL","WPC","WY","AES","AVA","BEP","BIP","CMS","CNP","D","DUK","ED","EIX","ETR","EXC","FE","IDA","LNT","NEE","NI","NRG","ORA","PEG","PCG","PNM","PNW","SO","SRE","SJI","TAC","WEC","XEL"]
 stock_list = []
 
-#Create all stock objects now
+# Create all stock objects now
 for symbol in stock_symbols:
     stock = Stock(symbol)
     stock_list.append(stock)
