@@ -143,6 +143,36 @@ def Create_Excel_Raw_Data(workbook, stock):
         worksheet.cell(row=row, column=col, value=value)
         row += 1
 
+    # Standard Deviation
+    col += 1
+    worksheet.cell(row=1, column=col, value=stock.symbol)
+    worksheet.cell(row=2, column=col, value="Standard Deviation")
+
+    row = 3
+    for value in stock.multiple_SD:
+        worksheet.cell(row=row, column=col, value=value)
+        row += 1
+
+    # Skewness
+    col += 1
+    worksheet.cell(row=1, column=col, value=stock.symbol)
+    worksheet.cell(row=2, column=col, value="Skewness")
+
+    row = 3
+    for value in stock.multiple_skew:
+        worksheet.cell(row=row, column=col, value=value)
+        row += 1
+
+    # Kurtosis
+    col += 1
+    worksheet.cell(row=1, column=col, value=stock.symbol)
+    worksheet.cell(row=2, column=col, value="Kurtosis")
+
+    row = 3
+    for value in stock.multiple_kurt:
+        worksheet.cell(row=row, column=col, value=value)
+        row += 1
+
     
 
 

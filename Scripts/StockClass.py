@@ -1,3 +1,6 @@
+import statistics
+import scipy.stats as stats
+
 class Stock:
     def __init__(self, symbol):
         self._symbol = symbol
@@ -21,6 +24,15 @@ class Stock:
         #How many outliers per date range
         self._low_perc_outliers = []
         self._high_perc_outliers = []
+
+        #Standard Deviation
+        self._multiple_SD = []
+
+        #Skewness
+        self._multiple_skew = []
+
+        #Kurtosis
+        self._multiple_kurt = []
 
 # TODO make a variable to save the highest average
 # TODO make a variable(s) to save the outliers in a list
@@ -101,6 +113,33 @@ class Stock:
     def multiple_perc_change(self, value):
         self._multiple_perc_change = value
 
+    
+    @property
+    def multiple_SD(self):
+        return self._multiple_SD
+
+    @multiple_SD.setter
+    def multiple_SD(self, value):
+        self._SD = value
+
+    
+    @property
+    def multiple_skew(self):
+        return self._multiple_skew
+
+    @multiple_skew.setter
+    def multiple_skew(self, value):
+        self._skew = value
+
+
+    @property
+    def multiple_kurt(self):
+        return self._multiple_kurt
+
+    @multiple_kurt.setter
+    def multiple_kurt(self, value):
+        self._kurt = value
+
 
 
 
@@ -139,7 +178,6 @@ class Stock:
 
 
 
-
 #Class methods
     def clean_single_data(cls):
         
@@ -155,3 +193,22 @@ class Stock:
         cls.single_perc_change.clear()
 
 
+
+
+
+
+
+# Standard deviation
+    def standard_deviation(cls):
+        sd = statistics.stdev(cls.single_perc_change)
+        cls.multiple_SD.append(sd)
+
+# Skewness
+    def skewness(cls):
+        skew = stats.skew(cls.single_perc_change)
+        cls.multiple_skew.append(skew)
+    
+# Kurtosis
+    def kurtosis(cls):
+        kurt = stats.kurtosis(cls.single_perc_change)
+        cls.multiple_kurt.append(kurt)
