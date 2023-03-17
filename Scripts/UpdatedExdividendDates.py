@@ -5,6 +5,7 @@ import os
 import sys
 from StockClass import Stock
 import Helpers
+import openpyxl
 from openpyxl import load_workbook
 from openpyxl.styles import Font, Border, Side
 
@@ -21,9 +22,14 @@ end_sell_range) = Helpers.Collect_User_Input()
 
 # TODO see if you can close the workbook if it is already open
 # ? Don't think we can close it unless it only works on windows or linux
-# TODO also create a new workbook if one doesn't exist
-# Excel settings
-work_book = load_workbook('../Excel_Sheets/Data.xlsx')
+
+try:
+    workbook = load_workbook(workbook_path)
+
+except FileNotFoundError:
+    print("That workbook doesn't exist. Creating workbook")
+    workbook = openpyxl.Workbook()
+    workbook.save(workbook_path)
 
 # List of tickers to make
 stock_symbols = ["PXD","MO","VZ","KMI","OKE"]#,"T","WBA","IP","PRU","PM","NEM","F","HAS","LYB","PNW","D","NRG","KEY","VFC","TFC","AAP","IVZ","BBY","AAPL","ADSK","AVGO","CSCO","HPQ","IBM","INTC","INTU","KLAC","MCHP","MRVL","MSFT","NVDA","ORCL","QCOM","TXN","V","BCE","CMCSA","DIS","IPG","LUMN","OMC","T","TM","VIV","VOD","VZ","BBY","DIS","F","GPS","GRMN","HD","LOW","MCD","MAR","NKE","RCL","RL","SBUX","TGT","WMT","YUM","BGS","CAG","CL","CLX","COST","CPB","CVS","DEO","EL","FLO","GIS","HSY","JJSF","K","KDP","KO","KMB","KR","MDLZ","MKC","MO","PEP","SJM","TAP","TSN","WBA","WMT","APA","CNX","CPG","CVE","D","DVN","EGN","ENLC","ENLK","EOG","EQNR","EQT","HES","HP","KMI","MPC","MRO","OKE","OXY","PSX","PTEN","SLB","SM","SU","SWN","VLO","XOM","AFL","AMP","AON","BAC","BEN","BK","BLK","BX","C","CINF","CMA","CME","CNO","COF","DFS","EQR","FITB","GS","HIG","HST","IVZ","JPM","L","LNC","MA","MET","MMC","MTB","MS","NTRS","PNC","PRU","RE","RF","SCHW","STT","TROW","TRV","UNM","USB","V","WFC","ZION","ABT","AMGN","BAX","BMY","CAH","COO","CVS","DHR","JNJ","MCK","MDT","MRK","PFE","RMD","SYK","TFX","TMO","UNH","WBA","WST","XLV","ZBH","AME","AVY","BA","CAT","CSL","DE","DOV","EFX","ECL","EMR","ETN","FDX","FLS","GE","GD","GWW","HON","ITW","LHX","LMT","MMM","MAS","NSC","NOC","PCAR","PH","PNR","ROP","RTX","SEE","SLB","TXT","UNP","UPS","WAB","WM","XYL","AA","ALB","APD","AVD","AVNT","CE","DD","ECL","EMN","FCX","FMC","FNV","GOLD","HUN","IFF","LIN","MLM","MOS","NEU","NEM","NUE","PPG","RPM","SCCO","SHW","SQM","SXT","TG","VALE","VMC","WPM","X","AHT","AKR","AMT","ARE","ARR","AVB","AVD","BXP","CLDT","CMCT","CUZ","CXW","DHC","DLR","EARN","ECL","EPR","EQR","ESS","EXR","FR","GOOD","HT","IRM","IRT","KIM","KRG","LAND","LXP","LSI","LTC","MAA","MLM","MPW","NEM","NEU","NNN","NLY","NHI","NUE","NYMT","O","OLP","PCH","PEAK","PLD","PPG","PSA","REG","RHP","SBRA","SCCO","SLG","SPG","SRC","SUI","STWD","UDR","UMH","VNO","VMC","VTR","WELL","WPC","WY","AES","AVA","BEP","BIP","CMS","CNP","D","DUK","ED","EIX","ETR","EXC","FE","IDA","LNT","NEE","NI","NRG","ORA","PEG","PCG","PNM","PNW","SO","SRE","SJI","TAC","WEC","XEL"]
@@ -142,9 +148,8 @@ with open('../logs.txt', 'w') as f:
 
         # TODO end up making this a function
         # We are done with the stock, so save its data to the Excel doc
-        work_sheet = work_book.create_sheet(stock.symbol)
+        work_sheet = workbook.create_sheet(stock.symbol)
 
-        # TODO don't hard code the titles, make it flexible if the input changes
         # Create row titles
         row_titles = []
         for num in range(end_buy_range, beginning_buy_range + 1):
@@ -216,7 +221,7 @@ with open('../logs.txt', 'w') as f:
 
 
         
-        work_book.save('../Excel_Sheets/Data.xlsx')
+        workbook.save(workbook_path)
 
             
 
@@ -263,4 +268,4 @@ with open('../logs.txt', 'w') as f:
 
 
     print("wow", file=f)
-    os.system('start excel.exe "../Excel_Sheets/Data.xlsx"')
+    os.system(f'start excel.exe {workbook_path}')

@@ -1,5 +1,22 @@
 import sys
 
+
+
+
+"""
+Gathers the user input
+
+Parameters:
+None
+
+Returns:
+workbook_path - path to the Excel sheet we are saving data to.
+beginning_buy_range - 
+end_buy_range - 
+beginning_sell_range - 
+end_sell_range - 
+
+"""
 def Collect_User_Input():
 
     workbook_name = input("What is the name of the Excel file you would like to save data to? (withought the .xlsx):   ")
@@ -78,21 +95,22 @@ def Collect_User_Input():
 
 
 # TODO Started creating this and realized that I want to do it different in the long run so I am not going to finish it, but just keep it here as a reminder
+"""
+Creates the tables in Excel
+
+Parameters:
+stock: A stock object
+ws: An excel WorkSheet
+beg_buy_range: (int) 
+end_buy_range: (int) 
+beg_sell_range: (int) 
+end_sell_range: (int)
+
+Returns:
+Nothing
+"""
 def Create_Excel_Tables(stock, ws, beg_buy_range, end_buy_range, beg_sell_range, end_sell_range):
-    """
-    Creates the tables in Excel
 
-    Parameters:
-    stock: A stock object
-    ws: An excel WorkSheet
-    beg_buy_range: (int) 
-    end_buy_range: (int) 
-    beg_sell_range: (int) 
-    end_sell_range: (int) 
-
-    Returns:
-    Nothing
-    """
     
     
     
