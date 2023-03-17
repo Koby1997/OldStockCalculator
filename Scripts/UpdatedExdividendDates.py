@@ -6,7 +6,13 @@ from StockClass import Stock
 from openpyxl import load_workbook
 from openpyxl.styles import Font, Border, Side
 
+# TODO try to make bell curve out of outliers. Buckets, percentages
+# TODO make a "Golden" list that actually performed well (High over 3%)?
+# TODO Standard deviation:      (each values - avg)^2. Do each individually. Add each ending value. Divide by amount of data points. Square root of that final sum is the SD. Higher SD = more volotile
 
+
+# TODO see if you can close the workbook if it is already open
+# TODO also create a new workbook if one doesn't exist
 #Excel settings
 work_book = load_workbook('../Excel_Sheets/Data.xlsx')
 
