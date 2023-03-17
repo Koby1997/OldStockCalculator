@@ -146,81 +146,8 @@ with open('../logs.txt', 'w') as f:
         if enough_data == False:
             continue
 
-        # TODO end up making this a function
-        # We are done with the stock, so save its data to the Excel doc
-        work_sheet = workbook.create_sheet(stock.symbol)
-
-        # Create row titles
-        row_titles = []
-        for num in range(end_buy_range, beginning_buy_range + 1):
-            row_titles.append(str(num))
-
-        # Create Column titles
-        col_titles = []
-        for num in range(end_sell_range, beginning_sell_range + 1):
-            col_titles.append(str(num))
-
-
-
-        # Main data. Averages for each date range
-        for i, title in enumerate(row_titles):
-            work_sheet.cell(row=i+2, column=1, value=title).font = Font(bold=True)
-
-        for i, title in enumerate(col_titles):
-            work_sheet.cell(row=1, column=i+2, value=title).font = Font(bold=True)
-
-        # Write the data to the worksheet
-        row = 2
-        col = 2
-        for value in stock.multiple_perc_change:
-            work_sheet.cell(row=row, column=col, value=value)
-            col += 1
-            if col >  (2 + beginning_sell_range - end_sell_range):
-                col = 2
-                row += 1
-
-
-# TODO to clean up later, but for now this will work
-# TODO Putting 2 of these here because this is really bad haha I really want to fix this janky code
-
-
-        for i, title in enumerate(row_titles):
-            work_sheet.cell(row=i+1+beginning_buy_range, column=1, value=title).font = Font(bold=True)
-            work_sheet.cell(row=i+1+beginning_buy_range, column=(5+(beginning_sell_range - end_sell_range)), value=title).font = Font(bold=True)
-
-        for i, title in enumerate(col_titles):
-            work_sheet.cell(row=beginning_buy_range, column=i+2, value=title).font = Font(bold=True)
-            work_sheet.cell(row=beginning_buy_range, column=i+6+(beginning_sell_range - end_sell_range), value=title).font = Font(bold=True)
-
         
-        # write the data to the worksheet
-        row = 1+beginning_buy_range
-        col = 2
-        for value in stock.low_perc_outliers:
-            work_sheet.cell(row=row, column=col, value=value)
-            col += 1
-            if col > (2 + (beginning_sell_range - end_sell_range)):
-                col = 2
-                row += 1
-
-
-        # write the data to the worksheet
-        row = 1+beginning_buy_range
-        col = 6+(beginning_sell_range - end_sell_range)
-        for value in stock.high_perc_outliers:
-            work_sheet.cell(row=row, column=col, value=value)
-            col += 1
-            if col > (5+(beginning_sell_range - end_sell_range)) + (1 + (beginning_sell_range - end_sell_range)):
-                col = 6+(beginning_sell_range - end_sell_range)
-                row += 1
-
-
-
-
-
-
-
-        
+        Helpers.Create_Excel_Raw_Data(workbook, stock)
         workbook.save(workbook_path)
 
             
@@ -230,11 +157,110 @@ with open('../logs.txt', 'w') as f:
     final_avg_price_change = []
     final_avg_perc_change = []
 
-    first = 0
+
+
+
+
+
+    print("wow", file=f)
+    os.system(f'start excel.exe {workbook_path}')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # TODO Getting Data to Excel has changed (see Create_Excel_Raw_Data) but we will need to create the tabels out of that information and the code below could help with that
+        # # We are done with the stock, so save its data to the Excel doc
+        # work_sheet = workbook.create_sheet(stock.symbol)
+
+        # # Create row titles
+        # row_titles = []
+        # for num in range(end_buy_range, beginning_buy_range + 1):
+        #     row_titles.append(str(num))
+
+        # # Create Column titles
+        # col_titles = []
+        # for num in range(end_sell_range, beginning_sell_range + 1):
+        #     col_titles.append(str(num))
+
+
+
+        # # Main data. Averages for each date range
+        # for i, title in enumerate(row_titles):
+        #     work_sheet.cell(row=i+2, column=1, value=title).font = Font(bold=True)
+
+        # for i, title in enumerate(col_titles):
+        #     work_sheet.cell(row=1, column=i+2, value=title).font = Font(bold=True)
+
+        # # Write the data to the worksheet
+        # row = 2
+        # col = 2
+        # for value in stock.multiple_perc_change:
+        #     work_sheet.cell(row=row, column=col, value=value)
+        #     col += 1
+        #     if col >  (2 + beginning_sell_range - end_sell_range):
+        #         col = 2
+        #         row += 1
+
+
+        # for i, title in enumerate(row_titles):
+        #     work_sheet.cell(row=i+1+beginning_buy_range, column=1, value=title).font = Font(bold=True)
+        #     work_sheet.cell(row=i+1+beginning_buy_range, column=(5+(beginning_sell_range - end_sell_range)), value=title).font = Font(bold=True)
+
+        # for i, title in enumerate(col_titles):
+        #     work_sheet.cell(row=beginning_buy_range, column=i+2, value=title).font = Font(bold=True)
+        #     work_sheet.cell(row=beginning_buy_range, column=i+6+(beginning_sell_range - end_sell_range), value=title).font = Font(bold=True)
+
+        
+        # # write the data to the worksheet
+        # row = 1+beginning_buy_range
+        # col = 2
+        # for value in stock.low_perc_outliers:
+        #     work_sheet.cell(row=row, column=col, value=value)
+        #     col += 1
+        #     if col > (2 + (beginning_sell_range - end_sell_range)):
+        #         col = 2
+        #         row += 1
+
+
+        # # write the data to the worksheet
+        # row = 1+beginning_buy_range
+        # col = 6+(beginning_sell_range - end_sell_range)
+        # for value in stock.high_perc_outliers:
+        #     work_sheet.cell(row=row, column=col, value=value)
+        #     col += 1
+        #     if col > (5+(beginning_sell_range - end_sell_range)) + (1 + (beginning_sell_range - end_sell_range)):
+        #         col = 6+(beginning_sell_range - end_sell_range)
+        #         row += 1
+
+
+
+
 
 
     # TODO save things like highest/lowest values for the stock
     # TODO do whatever happens below before saving to excel to add the data
+    # first = 0
     # for stock in stock_list:
     #     print("Each day-range percent average for ", stock.symbol, file=f)
 
@@ -265,7 +291,3 @@ with open('../logs.txt', 'w') as f:
     #     print("Date range ", i, file=f)
     #     print("Average Price change for all stocks in this date range: ", final_avg_price_change[i], file=f)
     #     print("Average Percentage change for all stocks in this date range: ", final_avg_perc_change[i], "%", file=f)
-
-
-    print("wow", file=f)
-    os.system(f'start excel.exe {workbook_path}')

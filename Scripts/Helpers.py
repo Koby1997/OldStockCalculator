@@ -1,4 +1,5 @@
 import sys
+from openpyxl import Workbook, load_workbook
 
 
 
@@ -91,36 +92,65 @@ def Collect_User_Input():
 
 
 
-
-
-
-# TODO Started creating this and realized that I want to do it different in the long run so I am not going to finish it, but just keep it here as a reminder
 """
-Creates the tables in Excel
+Adds to RAW_DATA Sheet in Excel
 
 Parameters:
-stock: A stock object
-ws: An excel WorkSheet
-beg_buy_range: (int) 
-end_buy_range: (int) 
-beg_sell_range: (int) 
-end_sell_range: (int)
+workbook - current workbook we want to save data to
+stock - the stock we currently have data for
 
 Returns:
 Nothing
 """
-def Create_Excel_Tables(stock, ws, beg_buy_range, end_buy_range, beg_sell_range, end_sell_range):
+def Create_Excel_Raw_Data(workbook, stock):
+
+    # Check if worksheet is already made, if not, make it
+    if "RAW_DATA" in workbook.sheetnames:
+        worksheet = workbook["RAW_DATA"]
+    else:
+        worksheet = workbook.create_sheet("RAW_DATA")
+
+    # What is the next empty Column to place the new stock data
+    col = Get_Next_Empty_Cell(worksheet)
+
+
+    # Average Percent Change
+    worksheet.cell(row=1, column=col, value=stock.symbol)
+    worksheet.cell(row=2, column=col, value="Average Percent Change")
+
+    row = 3
+    for value in stock.multiple_perc_change:
+        worksheet.cell(row=row, column=col, value=value)
+        row += 1
+
+    # High Outliers
+    col += 1
+    worksheet.cell(row=1, column=col, value=stock.symbol)
+    worksheet.cell(row=2, column=col, value="High Outliers")
+
+    row = 3
+    for value in stock.high_perc_outliers:
+        worksheet.cell(row=row, column=col, value=value)
+        row += 1
+
+    # Low Outliers
+    col += 1
+    worksheet.cell(row=1, column=col, value=stock.symbol)
+    worksheet.cell(row=2, column=col, value="Low Outliers")
+
+    row = 3
+    for value in stock.low_perc_outliers:
+        worksheet.cell(row=row, column=col, value=value)
+        row += 1
 
     
-    
-    
-    
-    # create row titles
-    row_titles = []
-    for num in range(end_buy_range, beg_buy_range):
-        row_titles.append(str(num))
 
-    # Create Column titles
-    col_titles = []
-    for num in range(end_sell_range, beg_sell_range):
-        col_titles.append(str(num))
+
+
+
+
+def Get_Next_Empty_Cell(worksheet):
+    for cell in worksheet[1]:
+        if cell.value is None:
+                return cell.column
+    return worksheet.max_column + 1
