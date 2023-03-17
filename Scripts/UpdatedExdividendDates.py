@@ -43,15 +43,15 @@ for symbol in stock_symbols:
 
 with open('../logs.txt', 'w') as f:
 
-    #just to help know how much time is left on the script
+    # Just to help know how much time is left on the script
     keep_count = 1
 
-    #loop through all stocks listed above
-    #We use a copy because we may need to altar the actual list during the loop
+    # Loop through all stocks listed above
+    # We use a copy because we may need to altar the actual list during the loop
     for stock in stock_list.copy():
     
-    #We want to make the ticker used by yfinance to get the dividend dates
-    #We use .download() to save all the info about the stock in one variable
+    # We want to make the ticker used by yfinance to get the dividend dates
+    # We use .download() to save all the info about the stock in one variable
         try:
             current_stock_ticker = yf.Ticker(stock.symbol)
             stock_data = yf.download(stock.symbol)
@@ -60,22 +60,22 @@ with open('../logs.txt', 'w') as f:
             continue
 
         dividends = current_stock_ticker.dividends
-        #Get all of the ex-dividend dates
-        #Change to python list of timezone-naive objects
+        # Get all of the ex-dividend dates
+        # Change to python list of timezone-naive objects
         ex_dividend_dates = dividends.index.tz_localize(None).to_pydatetime()
 
-        #The market closes on the weekends so there is no data for the weekends
-        #We want to fill in data for the weekends using the next day the market is open
+        # The market closes on the weekends so there is no data for the weekends
+        # We want to fill in data for the weekends using the next day the market is open
         weekends = pd.date_range(start=stock_data.index.min(), end=stock_data.index.max(), freq='W-SAT')
         weekends = weekends.union(pd.date_range(start=stock_data.index.min(), end=stock_data.index.max(), freq='W-SUN'))
-        #Match the format to our data
+        # Match the format to our data
         weekend_data = stock_data.reindex(weekends)
-        #combine with our data
+        # Combine with our data
         stock_data = stock_data.combine_first(weekend_data)
-        #fill the NaN weekend data with the next date we have in the future
+        # Fill the NaN weekend data with the next date we have in the future
         stock_data = stock_data.bfill()
 
-        #Used to know if we should just skip the stock and not add to our Data file
+        # Used to know if we should just skip the stock and not add to our Data file
         enough_data = True
         for buy_day in range(end_buy_range, beginning_buy_range + 1):
 
@@ -91,7 +91,7 @@ with open('../logs.txt', 'w') as f:
                     one_day_dt = datetime.timedelta(days=1)
 
                     
-                    #always us the 'Open' just in case the buy/sell is on a weekend                    
+                    # Always us the 'Open' just in case the buy/sell is on a weekend                    
                     try:
                         buy_date_price = stock_data.loc[date - buy_date_dt, 'Open']
                     except:
@@ -103,7 +103,7 @@ with open('../logs.txt', 'w') as f:
                         print(stock.symbol, "       No data for this sell day ", sell_date_dt, "    Skipping", file=f)
                         continue
                     
-                    #Successfully got buy/sell prices, so we will get a data point
+                    # Successfully got buy/sell prices, so we will get a data point
                     data_points += 1
 
                     price_difference = sell_date_price - buy_date_price
@@ -122,7 +122,7 @@ with open('../logs.txt', 'w') as f:
                     elif percent_change > 5:
                         high_outliers += 1
 
-                #Done with this date range
+                # Done with this date range
 
                 if data_points < 50:
                     print("Less than 50 data points for stock:   ", stock.symbol, file=f)
@@ -144,6 +144,7 @@ with open('../logs.txt', 'w') as f:
 
 
         if enough_data == False:
+            # Not enough Data for a date range in a stock, so skip this whole stock and continue to the next
             continue
 
         
@@ -153,13 +154,6 @@ with open('../logs.txt', 'w') as f:
             
 
     print("fully done with going through the date ranges")
-
-    final_avg_price_change = []
-    final_avg_perc_change = []
-
-
-
-
 
 
     print("wow", file=f)
@@ -260,6 +254,8 @@ with open('../logs.txt', 'w') as f:
 
     # TODO save things like highest/lowest values for the stock
     # TODO do whatever happens below before saving to excel to add the data
+    # final_avg_price_change = []
+    # final_avg_perc_change = []
     # first = 0
     # for stock in stock_list:
     #     print("Each day-range percent average for ", stock.symbol, file=f)
