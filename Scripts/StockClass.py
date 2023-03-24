@@ -35,7 +35,6 @@ class Stock:
         self._multiple_kurt = []
 
 # TODO make a variable to save the highest average
-# TODO make a variable(s) to save the outliers in a list
 
     @property
     def symbol(self):

@@ -102,13 +102,20 @@ stock - the stock we currently have data for
 Returns:
 Nothing
 """
-def Create_Excel_Raw_Data(workbook, stock):
+def Create_Excel_Raw_Data(workbook, stock, num_cols, num_rows):
 
     # Check if worksheet is already made, if not, make it
     if "RAW_DATA" in workbook.sheetnames:
         worksheet = workbook["RAW_DATA"]
     else:
         worksheet = workbook.create_sheet("RAW_DATA")
+        worksheet.cell(row=1, column=1, value="Stock Symbol")
+        worksheet.cell(row=2, column=1, value="Calculation Type")
+        worksheet.cell(row=3, column=1, value="Data")
+        worksheet.cell(row=6, column=1, value="Number of Columns")
+        worksheet.cell(row=7, column=1, value=num_cols)
+        worksheet.cell(row=9, column=1, value="Number of Rows")
+        worksheet.cell(row=10, column=1, value=num_rows)
 
     # What is the next empty Column to place the new stock data
     col = Get_Next_Empty_Cell(worksheet)

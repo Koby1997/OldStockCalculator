@@ -11,13 +11,15 @@ from openpyxl.styles import Font, Border, Side
 
 # TODO try to make bell curve out of outliers. Buckets, percentages
 # TODO make a "Golden" list that actually performed well (High over 3%)?
-# TODO Standard deviation:      (each values - avg)^2. Do each individually. Add each ending value. Divide by amount of data points. Square root of that final sum is the SD. Higher SD = more volotile
 
 (workbook_path,
 beginning_buy_range,
 end_buy_range,
 beginning_sell_range,
 end_sell_range) = Helpers.Collect_User_Input()
+
+num_cols = beginning_sell_range - end_sell_range
+num_rows = beginning_buy_range - end_buy_range
 
 
 # TODO see if you can close the workbook if it is already open
@@ -151,7 +153,7 @@ with open('../logs.txt', 'w') as f:
             continue
 
         
-        Helpers.Create_Excel_Raw_Data(workbook, stock)
+        Helpers.Create_Excel_Raw_Data(workbook, stock, num_cols, num_rows)
         workbook.save(workbook_path)
 
             
