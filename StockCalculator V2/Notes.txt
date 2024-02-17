@@ -1,0 +1,55 @@
+Clases
+
+
+Stock
+{
+    symbol - String
+    all_range_diff - array of RangeDiffAnalyzer's
+
+}
+
+
+RangeDiffAnalyzer
+{
+    buy_day - int
+    sell_day - int
+
+    date_diff_set - array of DateDiff's
+    
+    avg_price_change - int
+    avg_perc_change - int
+    
+    standard_deviation - int
+    skew - int
+    kurt - int
+
+}
+
+
+DateDiff
+{
+    buy_date - date
+    sell_date - date
+    price_change - int
+    perc_change - int
+    is_weekend - bool
+
+}
+
+
+
+Python 3.12.2
+pip install scipy
+pip install yfinance
+
+
+
+
+"Older' Stocks?
+somehow show higher percentages?
+category of stock
+
+
+
+Start writing scripts to take out stocks with not enough data points
+Find out how to take in a large text file or some big array

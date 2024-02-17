@@ -1,0 +1,74 @@
+start small
+	one buy day
+	one sell day
+	work out from there
+
+
+	find relative peak?
+
+
+
+
+right now, just do a week. proof of concept to get a passing percentage
+
+then maybe do some brute force to find better days
+
+then try relative peak.
+
+
+
+Declaration date - date which directors announces approval for payment of a dividend
+Ex-Dividend Date - date that stock trades without a dividend. Typically 2-3 days before record date set by stock exchange
+Record Date      - date on which investor must be on the company's books in order to receive a dividend set by company
+Payment date     - Date on which dividend is paid.
+
+
+Other options:
+FinancialModelingPrep (FMP)
+
+Alpha Vantage API key: N8JCFXS848UV0YIH
+https://www.alphavantage.co/documentation/
+
+
+
+high dividends 
+
+numerai  fund
+fideltyl 
+short terms capital gains
+real cost
+
+
+pip install psutil
+pip install scipy
+
+
+Skewness: Skewness measures the degree of asymmetry of a distribution. A skewness value of 0 indicates a perfectly symmetrical distribution,
+while positive skewness values indicate that the distribution has a longer tail on the right side (or positive side) of the distribution,
+and negative skewness values indicate that the distribution has a longer tail on the left side (or negative side) of the distribution.
+In the context of a stock strategy or other financial asset, a positive skewness value may indicate that there is more potential for positive
+returns than negative returns, while a negative skewness value may indicate the opposite.
+
+Kurtosis: Kurtosis measures the degree of peakedness of a distribution. A kurtosis value of 0 indicates a perfectly normal (or bell-shaped) distribution,
+while positive kurtosis values indicate a more peaked distribution with more values clustered around the mean, and negative kurtosis values indicate a
+flatter distribution with fewer values clustered around the mean. In the context of a stock strategy or other financial asset, a high kurtosis value may
+indicate that the returns are more volatile and have a higher degree of risk, while a low kurtosis value may indicate that the returns are more stable
+and have a lower degree of risk.
+
+
+
+https://stackoverflow.com/questions/46419607/how-to-automatically-install-required-packages-from-a-python-script-as-necessary
+
+
+
+
+Length of losing streaks?
+Drawdown?
+sharpe ratio, sortino ration, calmar ration
+
+
+
+
+
+Create a Histogram of each RangeDiffAnalyzer. That will help show the distribution.
+Heat map of final table
